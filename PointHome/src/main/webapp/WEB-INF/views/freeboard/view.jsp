@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <style type="text/css">
 #header, #footer {
 	text-align: center;
@@ -36,6 +38,83 @@ div.fr{
 	border-top:0px;
 	border-left:0px;
 }
+
+
+      .modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: none;
+
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      
+      .modal.show {
+  			display: block;
+		}
+
+      .modal2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: none;
+
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      
+.modal2.show {
+  display: block;
+}
+
+.modal_body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 500px;
+  height: 100px;
+
+  padding: 40px;
+
+  text-align: center;
+
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.modal2_body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 500px;
+  height: 100px;
+
+  padding: 40px;
+
+  text-align: center;
+
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+  transform: translateX(0%) translateY(0%);
+}
+
+
+
+
 </style>
 </head>
 <body>
@@ -61,11 +140,85 @@ ${board.freeboardDate }
 	<span class="cmtCount">댓글 4</span>
 </div>
 <hr>
-<div id="content" style="text-align: center">
+<div id="content" >
 <!-- 본문 내용 가져오기 -->
 ${board.freeboardContent }
+
+
+
+<c:forEach var="bfile" items="${file}"><br>
+
+<%-- ${fn:contains(fn:toLowerCase(bfile.freeboardfileOrigin), "gif") } --%>
+<%-- ${fn:contains(bfile.freeboardfileOrigin, 'gif') } --%>
+<c:choose>
+	<c:when test="${fn:contains(fn:toLowerCase(bfile.freeboardfileOrigin), 'gif') }">
+		<img src="/upload/${bfile.freeboardfileStored}"  alt="">
+	</c:when>
+	<c:when test="${fn:contains(fn:toLowerCase(bfile.freeboardfileOrigin), 'png') }">
+		<img src="/upload/${bfile.freeboardfileStored}"  alt="">
+	</c:when>
+	<c:when test="${fn:contains(fn:toLowerCase(bfile.freeboardfileOrigin), 'jpg') }">
+		<img src="/upload/${bfile.freeboardfileStored}"  alt="">
+	</c:when>
+	
+<%-- 		<a href="./download?fileNo=${bfile.freeboardfileNo}">${bfile.freeboardfileOrigin }</a> --%>
+
+</c:choose>
+
+</c:forEach>
+
+<hr>
+
+<div style="font-size:12px;"  >
+첨부파일
+<c:forEach var="bfile" items="${file}">
+	<a href="./download?fileNo=${bfile.freeboardfileNo}">${bfile.freeboardfileOrigin }</a>
+</c:forEach>
 </div>
-<hr><br>
+
+</div>
+
+<!-- 첨부파일 -->
+
+<!-- <div class="mb-3"> -->
+<%-- 		<c:forEach var="boardFile" items="${file}"> --%>
+		
+<%-- 			<a href="./download?fileNo=${boardFile.freeboardfileNo}">${boardFile.freeboardfileOrigin }</a><br> --%>
+			
+<%-- 		</c:forEach> --%>
+<!-- </div> -->
+
+
+<hr>
+
+  <div class="modal">
+     <div class="modal_body" >게시글을 수정하시겠습니까?&nbsp;&nbsp;&nbsp;    
+     <a href="./update?freeboardNo=${board.freeboardNo}"><button type="submit" class="btn btn-outline-primary btn-default btn-xs">확인</button></a>
+     <button type="button" class="btn btn-outline-primary btn-default btn-xs">취소</button>
+     </div>     
+  </div>
+
+   <div class="modal2">
+      <div class="modal2_body" >게시글을 삭제하시겠습니까?&nbsp;&nbsp;&nbsp;    
+      <a href="./delete?freeboardNo=${board.freeboardNo}"><button type="button" class="btn btn-outline-primary btn-default btn-xs">확인</button></a>
+      <a href="/freeboard/list"><button type="button" class="btn btn-outline-primary btn-default btn-xs">취소</button></a>
+      </div>
+    </div>
+
+   <div class="text-end"> 
+	   <c:if test="${userno eq board.userNo}">
+	   <button type="button" class="btn-open-popup btn btn-secondary" >수정</button>
+	   <button type="button" class="btn-reset-popup btn btn-secondary" >삭제</button>
+	   </c:if>
+   </div>
+
+<!--    <div class="text-end"> -->
+  
+<%--   		<a href="./update?freeboardNo=${board.freeboardNo}"><button type="button" class="btn-open-popup btn-secondary" >수정</button></a> --%>
+<%--    		<a href="./delete?freeboardNo=${board.freeboardNo}"><button type="button" class="btn-reset-popup btn-secondary" >삭제</button></a> --%>
+   
+<!--    </div> -->
+<br>
 <div class="comments">
 댓글 4개 
 
@@ -95,6 +248,7 @@ ${board.freeboardContent }
 </tr>
 </c:forEach>
 
+
 <!-- i태그 이미지 >> 사용자 프로필 가져오기 로 코맨트 for each 출력-->
 </form>
 </div>
@@ -103,6 +257,55 @@ ${board.freeboardContent }
 <div id="footer">
 <h1><a class="text-info" href="/">FOOTER</a></h1>
 </div>
+
+    <script>
+      const body = document.querySelector('body');
+      const modal = document.querySelector('.modal');
+      const btnOpenPopup = document.querySelector('.btn-open-popup');
+
+      btnOpenPopup.addEventListener('click', () => {
+        modal.classList.toggle('show');
+
+        if (modal.classList.contains('show')) {
+          body.style.overflow = 'hidden';
+        }
+      });
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          modal.classList.toggle('show');
+
+          if (!modal.classList.contains('show')) {
+            body.style.overflow = 'auto';
+          }
+        }
+      });
+    </script>
+    
+         <script>
+      const body2 = document.querySelector('body');
+      const modal2 = document.querySelector('.modal2');
+      const btnOpenPopup2 = document.querySelector('.btn-reset-popup');
+
+      btnOpenPopup2.addEventListener('click', () => {
+        modal2.classList.toggle('show');
+
+        if (modal2.classList.contains('show')) {
+          body2.style.overflow = 'hidden';
+        }
+      });
+
+      modal2.addEventListener('click', (event) => {
+        if (event.target === modal2) {
+          modal2.classList.toggle('show');
+
+          if (!modal2.classList.contains('show')) {
+            body2.style.overflow = 'auto';
+          }
+        }
+      });
+    </script>
+    
 
 </body>
 </html>

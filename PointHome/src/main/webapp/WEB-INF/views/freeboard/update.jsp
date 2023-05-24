@@ -134,7 +134,7 @@ font-family: 'Gowun Batang', serif;
 <h1 class="text-center">게시글 작성</h1><br>
 <hr><br>
 
-<form action="./write" method="post" enctype="multipart/form-data">
+<form action="./update" method="post" enctype="multipart/form-data">
    
    
    <input type="text" id="freeboardTitle" name="freeboardTitle" placeholder= "제목" style="width:300px;" required ><br><br>
@@ -147,7 +147,7 @@ font-family: 'Gowun Batang', serif;
    <div class="modal">
       <div class="modal_body" >게시글을 등록하시겠습니까?&nbsp;&nbsp;&nbsp;    
       <button type="submit" class="btn btn-outline-primary btn-default btn-xs">확인</button>
-      <button type="button" class="btn btn-outline-primary btn-default btn-xs">취소</button>
+      <button type="submit" class="btn btn-outline-primary btn-default btn-xs">취소</button>
       </div>     
     </div>
 

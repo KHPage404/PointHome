@@ -57,6 +57,7 @@ public class userController {
 			session.setAttribute("login", true);
 			session.setAttribute("userno", user.getUserNo());
 			
+			
 			return "redirect:/";
 		}
 

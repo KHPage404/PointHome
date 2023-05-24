@@ -39,6 +39,7 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/upload/**" location="/upload/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -58,8 +59,8 @@
 
 	</beans:bean>
 
-	<!-- DownloadView클래스를 스피링 빈으로 등록 -->
-<!-- 	<beans:bean id="down" class="file.view.DownloadView"/> -->
+<!-- 	DownloadView클래스를 스피링 빈으로 등록 -->
+	<beans:bean id="down" class="com.pointhome.www.freeboard.view.DownloadView"/>
 	
 		<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 메모리에서 파일을 처리할 수 있는 최대 사이즈 : 1MB -->

@@ -2,6 +2,8 @@ package com.pointhome.www.freeboard.dao.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.pointhome.www.freeboard.dto.FreeBoard;
 
 import com.pointhome.www.freeboard.dto.FreeBoardFile;
@@ -27,6 +29,15 @@ public interface FreeBoardDao {
 	public List<FreeBoardComment> viewBoardComment(int freeboardNo);
 
 	public void insertBoardComment(FreeBoardComment comment);
+
+	public List<MultipartFile> getMultiFiles(int freeboardNo);
+
+	public FreeBoardFile selectFile(int fileNo);
+
+	public void deleteFile(FreeBoard board);
+
+	public void deleteBoard(FreeBoard board);
+
 
 
 

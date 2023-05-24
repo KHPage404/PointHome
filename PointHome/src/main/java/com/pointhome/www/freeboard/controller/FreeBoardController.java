@@ -19,7 +19,7 @@ import com.pointhome.www.freeboard.dto.FreeBoard;
 
 
 import com.pointhome.www.freeboard.dto.FreeBoardComment;
-
+import com.pointhome.www.freeboard.dto.FreeBoardFile;
 import com.pointhome.www.freeboard.service.face.FreeBoardService;
 import com.pointhome.www.util.Paging;
 
@@ -61,9 +61,15 @@ public class FreeBoardController {
 		List<FreeBoardComment> boardCommentList = freeBoardService.commentView(freeboardNo);
 		
 		model.addAttribute("board", board);
+
+		List<MultipartFile> file = freeBoardService.getMultiFile(freeboardNo);
+		logger.info("file:{}", file);
+		model.addAttribute("file",file);
 		
 		logger.info("{}",boardCommentList);
 		model.addAttribute("boardCommentList", boardCommentList);
+		
+		
 		
 		
 	}
@@ -84,6 +90,7 @@ public class FreeBoardController {
   		logger.info("{}", session.getAttribute("userno"));
 		freeBoardService.write(board, dataMul);
 		
+			
 		return "redirect:./list"; 
 	 }
 
@@ -100,6 +107,28 @@ public class FreeBoardController {
 		
 		return "redirect:./view";
 	}	
+	
+	@RequestMapping("/download")
+	public String download( int fileNo,Model model ) {
+		
+		FreeBoardFile file = freeBoardService.getFile(fileNo);
+		model.addAttribute("downFile", file);
+		
+		return "down";
+	}
+	
+	@GetMapping("/update")
+	public void update() {}
+	
+	@RequestMapping("/delete")
+	public String delete(FreeBoard board) {
+		
+		logger.info("safd: {}", board);
+		freeBoardService.delete(board);
+		
+		return "redirect:./list";
+	}
+	
 	
 
 

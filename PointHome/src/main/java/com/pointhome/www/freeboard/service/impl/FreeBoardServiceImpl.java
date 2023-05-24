@@ -116,6 +116,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	
 	}
 
+	@Override
 	public List<FreeBoardComment> commentView(int freeboardNo) {
 		
 		return freeBoardDao.viewBoardComment(freeboardNo);
@@ -126,6 +127,27 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		
 		freeBoardDao.insertBoardComment(comment);
 
+	}
+
+	@Override
+	public List<MultipartFile> getMultiFile (int freeboardNo) {
+		
+		return freeBoardDao.getMultiFiles(freeboardNo);
+	}
+
+	@Override
+	public FreeBoardFile getFile(int fileNo) {
+
+		logger.info("ds{}", freeBoardDao.selectFile(fileNo));
+		return freeBoardDao.selectFile(fileNo);
+	}
+	
+	@Override
+	public void delete(FreeBoard board) {
+		
+		freeBoardDao.deleteFile(board);
+		freeBoardDao.deleteBoard(board);
+		
 	}
 
 }

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pointhome.www.freeboard.dto.FreeBoard;
 import com.pointhome.www.freeboard.dto.FreeBoardComment;
+import com.pointhome.www.freeboard.dto.FreeBoardFile;
 import com.pointhome.www.util.Paging;
 
 public interface FreeBoardService {
@@ -22,6 +23,13 @@ public interface FreeBoardService {
 	public List<FreeBoardComment> commentView(int freeboardNo);
 
 	public void insert(FreeBoardComment comment);
+
+	public List<MultipartFile> getMultiFile(int freeboardNo);
+
+	public FreeBoardFile getFile(int fileNo);
+
+	public void delete(FreeBoard board);
+
 
 
 

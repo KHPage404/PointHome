@@ -66,9 +66,26 @@
  		VALUES (#{freeboardNo}, #{commContent})
  	</insert>
 	
-		
+	<select id="getMultiFiles" parameterType="int" resultType="FreeBoardFile">
+		select * from freeboard_file
+		where freeboard_no = #{freeboard_no}
+	
+	</select>		
+	
+	<select id="selectFile" parameterType="int" resultType="FreeBoardFile">
+		select * from freeboard_file
+		where freeboardFile_no = #{freeboardFile_no}
+	</select>
 
-
+	<delete id="deleteFile" parameterType="int">
+		delete freeboard_file
+		where freeboard_no = #{freeboardNo}
+	</delete>
+	
+	<delete id="deleteBoard" parameterType="FreeBoard">
+		delete freeboard
+		where freeboard_no = #{freeboardNo}
+	</delete>
 
 
 </mapper>
