@@ -123,6 +123,8 @@ public interface PartnerDao {
 
 	public List<Map<String, Object>> selectPartPick(@Param("paging") Paging paging, @Param("userNo") int userNo);
 
+	public List<Map<String, Object>> selectPartTypePick(@Param("paging") Paging paging, @Param("userNo") int userNo, @Param("partnerType") String partnerType);
+
 
 
 

@@ -19,25 +19,37 @@
 
 <script type="text/javascript">
 function pickPart(th) {
+
 	
 	var partNo = $(th).parents(".card").find(".partNo").val()
 	console.log($(th).parents(".card").find(".partNo").val())
+ 	
 	
 	$.ajax({
 		   type : 'get',           // 타입 (get, post, put 등등)
 		   url : '/mypage/mypick',  // 요청할 서버url
-		   dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+		   dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
 		   data : {  // 보낼 데이터 (Object , String, Array)
-			   partnerNo : $(th).parents(".card").find(".partNo").val()
+			   partnerNo : $(th).parents(".card").find(".partNo").val(),
+// 			   curPage : curPage
 		   }, 
 		   success : function(result) { // 결과 성공 콜백함수
 		    	console.log(result)
-		        $("#mypPick").html(result)
+		        
+		        if( result.isPick ) { //찜 했음
+					$(th).find("i").removeClass("bi-heart")
+					$(th).find("i").addClass("bi-heart-fill")
+				} else { //찜 취소
+					$(th).find("i").removeClass("bi-heart-fill")
+					$(th).find("i").addClass("bi-heart")
+				}
+		   
 		   },
 		   error : function(request, status, error) { // 결과 에러 콜백함수
 		        console.log(error)
 		   }
 	})
+
 }
 </script>
 
@@ -53,6 +65,7 @@ function pickPart(th) {
 							height="200px" style="width: 100%" alt="ex">
 						
 						<input class="partNo" type="hidden" value="${board.PARTNER_NO}">
+						
 						
 						
 						<div class="card-body">

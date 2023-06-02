@@ -86,15 +86,28 @@
 	</select>
 	
 	<select id="selectCntTypeAll" resultType="int" parameterType="map">
-		<if test="partnerType == 'c'.toString() ">
-			select count(*) from partner_tb	where partner_type = 'c'
-		</if>
-		<if test="partnerType == 's'.toString()">
-			select count(*) from partner_tb where partner_type = 's'
-		</if>
-		<if test="partnerType == 't'.toString()">
-			select count(*) from partner_tb where partner_type = 't'
-		</if>
+		select count(*)
+		
+		<choose>
+		
+		
+		<when test="partnerType == 'c'.toString() ">
+			 from partner_tb	where partner_type = 'c'
+		</when>
+		
+		<when test="partnerType == 't'.toString() ">
+			from partner_tb	where partner_type = 't'
+		</when>
+		
+		<when test="partnerType == 's'.toString() ">
+			from partner_tb	where partner_type = 's'
+		</when>
+
+		<otherwise>
+			from partner_tb
+		</otherwise>
+		</choose>
+
 	</select>
 	
 	<select id="selectTypeListAll" resultType="Partner" parameterType="map">
@@ -197,16 +210,39 @@
 	
 	</select>
 
-	<select id="selectPartPick" parameterType="map" resultType="map"> 
-		select * from (
-			select rownum rnum , B.*, (SELECT count(*) FROM partner_pick p WHERE p.part_no=B.partner_no AND p.user_no=#{userNo}) ispick
-			from ( 
-				select * from partner_tb
-				order by partner_no desc 
-			) B 
-		)partner_tb
-		where rnum between #{paging.startNo} and #{paging.endNo}
+	<select id="selectPartTypePick" parameterType="map" resultType="map">
+	
+		<choose>
+		<when test="partnerType == null">
+			select * from (
+				select rownum rnum , B.*, 
+				(SELECT count(*) FROM partner_pick p WHERE p.part_no=B.partner_no AND p.user_no=#{userNo}) ispick
+				from ( 
+					select * from partner_tb
+<!-- 					where partner_type='#{partnerType} -->
+					order by partner_no desc 
+				) B 
+			)partner_tb
+			where rnum between #{paging.startNo} and #{paging.endNo}
+		</when>
+		
+		<otherwise>
+			select * from (
+				select rownum rnum , B.*, 
+				(SELECT count(*) FROM partner_pick p WHERE p.part_no=B.partner_no AND p.user_no=#{userNo}) ispick 
+				from ( 
+					select * from partner_tb
+					where partner_type=#{partnerType}
+					order by partner_no desc 
+				) B 
+			)partner_tb
+			where rnum between #{paging.startNo} and #{paging.endNo}
+		</otherwise>
+		</choose> 
+		
 	</select>	
+
+
 
 
 </mapper>

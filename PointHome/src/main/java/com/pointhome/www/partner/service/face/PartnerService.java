@@ -113,6 +113,8 @@ public interface PartnerService {
 
 		public List<Map<String, Object>> list(Paging paging, int userNo);
 
+		public List<Map<String, Object>> typelist(Paging paging, String partnerType, int userNo);
+
 
 
 	

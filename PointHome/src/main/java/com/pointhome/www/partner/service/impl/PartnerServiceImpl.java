@@ -228,4 +228,9 @@ public class PartnerServiceImpl implements PartnerService {
 			
 	}
 
+	@Override
+	public List<Map<String, Object>> typelist(Paging paging, String partnerType, int userNo) {
+		return partnerDao.selectPartTypePick(paging, userNo, partnerType);
+	}
+
 }

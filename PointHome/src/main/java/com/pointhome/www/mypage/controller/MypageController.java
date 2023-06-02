@@ -1,5 +1,6 @@
 package com.pointhome.www.mypage.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.pointhome.www.mypage.service.face.MypageService;
 import com.pointhome.www.partner.dto.Partner;
@@ -66,8 +68,6 @@ public class MypageController {
 		logger.debug("res{}",res);
 		model.addAttribute("res", res);
 		
-		
-		
 		UserFile userFile = mypageService.selectImg(userno);
 		logger.info("userFile : {}",userFile);
 		
@@ -82,23 +82,36 @@ public class MypageController {
 	public void myreservedetail() {}
 	
 	@RequestMapping("/mypick")
-	public void mypick(int partnerNo, @RequestParam(defaultValue = "0") int curPage,  Model model, HttpSession session) {
+	public ModelAndView mypick(int partnerNo, 
+			@RequestParam(defaultValue = "0") int curPage,  
+			Model model,
+			HttpSession session,
+			String partnerType,
+			ModelAndView mav
+			
+			) {
 
-		
+		logger.info("dsfa{}",partnerNo);
+
+		//찜 업데이트
 		int userNo = (Integer)session.getAttribute("userno");
-		
 		mypageService.pickUpdate(userNo, partnerNo);
 		
-		
-		Paging paging = partnerService.getPaging(curPage);
-		List<Map<String, Object>> list = partnerService.list(paging, userNo);
-		
-		
-		logger.info("##### v{}", list);
-		model.addAttribute("list", list);
+		//업데이트 후 데이터 다시 셀렉트
+		int isPick = mypageService.isPick(userNo, partnerNo);
 		
 		
+		if(isPick == 1) {
+			mav.addObject("isPick", true);
+		} else {
+			mav.addObject("isPick", false);
+		}
+		
+		mav.setViewName("jsonView");
+		
+		return mav;
 	}
+	
 	
 	@GetMapping("/myreview")
 	public void myreview() {}

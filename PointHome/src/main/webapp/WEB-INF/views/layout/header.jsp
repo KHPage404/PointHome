@@ -50,9 +50,9 @@ a {
     
     <div style="text-align: justify;">
 	    <a class="btn btn-light" href="/partner/list">전체</a>
-	    <a class="btn btn-light" href="/partner/typelist?partnerType=t">타로</a>
-	    <a class="btn btn-light" href="/partner/typelist?partnerType=c">철학</a>
-	    <a class="btn btn-light" href="/partner/typelist?partnerType=s">신점</a>
+	    <a class="btn btn-light" href="/partner/list?partnerType=t">타로</a>
+	    <a class="btn btn-light" href="/partner/list?partnerType=c">철학</a>
+	    <a class="btn btn-light" href="/partner/list?partnerType=s">신점</a>
     </div>
     
     <div>

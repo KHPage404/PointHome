@@ -96,31 +96,11 @@ public class PartnerController {
 		
 	}
 	
-	@GetMapping("/list")
-	public void BoardList( @RequestParam(defaultValue = "0") int curPage, 
-			Model model,
-			HttpSession session
-			) {
-		logger.info("/partnerboard/list [GET]");
-
-		Paging paging = partnerService.getPaging(curPage);
-		
-		List<Partner> list = partnerService.list(paging);
-
-		logger.info("!!!!!!!!!!!!!!!!{}", list);
-
-		model.addAttribute("list", list);
-		model.addAttribute("paging", paging);
-		
-		
-		
-		
-	}
-	
-
-	
-	@RequestMapping("/typelist")
-	public void typeList(@RequestParam(defaultValue = "0") int curPage, Model model, String partnerType) {
+	@RequestMapping("/list")
+	public void typeList(@RequestParam(defaultValue = "0") int curPage, 
+			Model model, 
+			String partnerType,
+			HttpSession session) {
 		
 		Map<String, Object> pagingMap = new HashMap<String, Object>();		
 		
@@ -129,17 +109,17 @@ public class PartnerController {
 	
 		Paging paging  = partnerService.getTypePaging(pagingMap);
 		
+		int userNo = (Integer)session.getAttribute("userno");
 		
-		Map<String, Object> listMap = new HashMap<String, Object>();
+		logger.info("!!!!!{}", paging);
+		logger.info("!!!!!{}", partnerType);
+		logger.info("!!!!!{}", userNo);
 		
-		listMap.put("partnerType", partnerType);
-		listMap.put("paging", paging);
+		List<Map<String, Object>> list = partnerService.typelist(paging, partnerType, userNo);
 		
-		List<Partner> list = partnerService.typelist(listMap);
-
 		
 		model.addAttribute("partnerType", partnerType);
-		model.addAttribute("typelist", list);
+		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
 		
 		
