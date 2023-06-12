@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pointhome.www.admin.dto.Admin;
@@ -55,13 +56,13 @@ public interface AdminService {
 	 * @param userno - 유저
 	 * @return - 글 전체 조회 
 	 */
-	public List<FreeBoard> userPost(int userNo);
+	public List<FreeBoard> userPost(int userNo,Paging paging, String filter, String searchType, String keyword);
 	/**
 	 *  댓글 전체 조회
 	 * @param userno - 유저 번호
 	 * @return 유저 번호로 조회한 전체 댓글
 	 */
-	public List<FreeBoardComment> userCmt(int userno);
+	public List<Map<String, Object>> userCmt(int userNo,Paging paging, String filter, String searchType, String keyword);
 	
 	/**
 	 * 로그인시, DB에서 운영사의 정보 조회
@@ -238,10 +239,38 @@ public interface AdminService {
 	public Paging getPagingPartnerManage(int curPage, String filter, String searchType, String keyword);
 	/**
 	 * 사용자가 작성한 게시글 삭제 
-	 * @param freeBoard - 사용자번호
+	 * @param freeBoard - 게시글 번호 
 	 * @return 삭제된 게시글
 	 */
-	public void removeuserpost(FreeBoard freeBoard);
+	public void userBoardDelete(String freeboardNo);
+	/**
+	 * 게시글 목록을 위한 페이징 객체 생성
+	 * 
+	 * @param curPage- 현재페이지
+	 * @param filter - 필터
+	 * @param searchType - 검색 타입
+	 * @param keyword - 키워드
+	 * @return - 계산이 완료된 Paging 객체
+	 */
+	public Paging getPagingUserPost(int userNo,int curPage, String filter, String searchType, String keyword);
+	
+	/**
+	 * 사용자가 작성한 댓글 삭제 
+	 * @param cmtNo - 게시글 번호 
+	 * @return 삭제된 게시글
+	 */
+	public void removeusercmt(String cmtNo);
+	/**
+	 * 게시글 목록을 위한 페이징 객체 생성
+	 * 
+	 * @param curPage- 현재페이지
+	 * @param filter - 필터
+	 * @param searchType - 검색 타입
+	 * @param keyword - 키워드
+	 * @return - 계산이 완료된 Paging 객체
+	 */
+	public Paging getPagingUserCmt(int userNo, int curPage, String filter, String searchType, String keyword);
+	
 	
 
 	

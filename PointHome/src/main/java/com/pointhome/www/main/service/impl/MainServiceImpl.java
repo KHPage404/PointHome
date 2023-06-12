@@ -33,6 +33,7 @@ public class MainServiceImpl implements MainService {
 		res.setResReserveno(str);
 		
 		mainDao.insertUserReserveData(res);
+		mainDao.insertReserveAlert(res);
 		
 	}
 	

@@ -128,8 +128,13 @@ public class FreeBoardServiceImpl implements FreeBoardService {
    public void insert(FreeBoardComment comment) {
       
       freeBoardDao.insertBoardComment(comment);
+      
+      int writer = freeBoardDao.selectWriter(comment);
+      
+      if(writer != comment.getUserNo()) {
       String freeboardTitle = freeBoardDao.selectTitleByFreeboardNo(comment);
       freeBoardDao.insettAlarm(comment, freeboardTitle);
+      }
    }
    
    

@@ -73,12 +73,12 @@ body {
 </div>
 
 <div class="container">
-	<div class="row">
-		<div class="form-check form-switch col">
-			<input class="form-check-input mb-3" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked> 
-			<label class="form-check-label" for="flexSwitchCheckChecked">로그인 상태 유지</label>
-		</div>
-	</div>
+<div class="row">
+<!-- 		<div class="form-check form-switch col"> -->
+<!-- 			<input class="form-check-input mb-3" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>  -->
+<!-- 			<label class="form-check-label" for="flexSwitchCheckChecked">로그인 상태 유지</label> -->
+<!-- 		</div> -->
+</div>
 </div>
 
 <button class="btn btn-lg login">로그인</button>

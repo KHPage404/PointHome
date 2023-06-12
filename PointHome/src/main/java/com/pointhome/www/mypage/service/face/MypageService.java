@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pointhome.www.freeboard.dto.FreeBoard;
 import com.pointhome.www.main.dto.Reservation;
 import com.pointhome.www.mypage.dto.AlertRecomm;
+import com.pointhome.www.mypage.dto.Review;
 import com.pointhome.www.partner.dto.Partner;
 import com.pointhome.www.user.dto.User;
 import com.pointhome.www.user.dto.UserFile;
@@ -64,19 +65,74 @@ public interface MypageService {
 	 */
 	public int isPick(int userNo, int partnerNo);
 
+	/**
+	 * 내가 쓴 글 내역 조회
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 작성 글 리스트
+	 */
 	public List<FreeBoard> selectboard(int userNo);
 
+	/**
+	 * 찜 내역 조회
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 찜 내역 리스트
+	 */
 	public List<Map<String, Object>> selectPickList(int userNo);
 
+	/**
+	 * 알림 내역 조회
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 알림 내역 리스트
+	 */
 	public List<Map<String, Object>> selectAlList(int userNo);
 
-//	public List<Map<String, Object>> selectREList(int userNo);
-
+	/**
+	 * 읽지 않은 알림 총 갯수
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 안 읽은 알람 갯수
+	 */
 	public int getAlertCnt(int userNo);
 
+	/**
+	 * 알림 누르면 읽은 알림(is_read : N -> Y) 으로 업데이트
+	 * 
+	 * @param userNo - 회원 번호
+	 */
 	public void deleteAlert(int userNo);
 
+	/**
+	 * 예약 내역 조회
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 예약 내역 리스트
+	 */
 	public List<Map<String, Object>> selectReserve(int userNo);
+
+	/**
+	 * 리뷰 작성
+	 * 
+	 * @param myreview - 리뷰 정보 담은 DTO
+	 */
+	public void insertReview(Review myreview);
+
+	/**
+	 * 리뷰 삭제
+	 * 
+	 * @param myreview - 리뷰 정보 담은 DTO
+	 */
+	public void deleteReview(Review myreview);
+
+	/**
+	 * 리뷰 내역 조회
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 내가 쓴 리뷰 내역 리스트
+	 */
+	public List<Map<String, Object>> selectReviewList(int userNo);
 
 
 	

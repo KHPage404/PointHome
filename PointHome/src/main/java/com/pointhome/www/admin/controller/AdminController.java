@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -97,6 +99,7 @@ public class AdminController {
 		
 		
 		Paging paging = adminService.getPagingUserManage(curPage, filter, searchType, keyword);
+//		logger.debug("paging!!{}",paging);
 		
 		List<User> userList = adminService.userList(paging, filter, searchType, keyword);
 		
@@ -243,7 +246,7 @@ public class AdminController {
 	
 	 @GetMapping("/view")
 	   public void view(int noticeNo,Model model, HttpSession session) {
-	      logger.info("/notice/view [GET]");
+//	      logger.info("/notice/view [GET]");
 
 	      AdminNotice view = adminService.view(noticeNo);
 	      model.addAttribute("view", view);
@@ -260,20 +263,20 @@ public class AdminController {
 	
 	@GetMapping("/writenotice") 
 	public void writeNotice() {
-		logger.debug("/admin/writernotice [Get]");
+//		logger.debug("/admin/writernotice [Get]");
 		
 		
 	}
 	
 	@PostMapping("/writenotice")
 	public String writeNoticePost(HttpSession session, List<MultipartFile> dataMul, AdminNotice adminnotice) {
-		logger.debug("/admin/writenotice [Post]");
+//		logger.debug("/admin/writenotice [Post]");
 		
 		adminnotice.setAdminNo((Integer)session.getAttribute("adminNo"));
 		
-		logger.info("adminNo : {}", session.getAttribute("adminNo"));
-		logger.debug("dataMul : {}",dataMul);
-		logger.debug("adminnotice : {}",adminnotice);
+//		logger.info("adminNo : {}", session.getAttribute("adminNo"));
+//		logger.debug("dataMul : {}",dataMul);
+//		logger.debug("adminnotice : {}",adminnotice);
 				
 		adminService.writeNotice(adminnotice,dataMul);
 		
@@ -283,53 +286,93 @@ public class AdminController {
 	
 	
 	
-	//사용자가 작성한 글, 댓글 가져오기 
-	
-	
+	//사용자가 작성한 글 가져오기 
 	@GetMapping("/userboardpost")
-	public void userboardpost(int userNo, Model model) {
+	public void userboardpost(@RequestParam("userNo") int userNo, Model model,@RequestParam(defaultValue = "0") int curPage,
+	         @RequestParam(defaultValue = "date")  String filter, 
+	         @RequestParam(value = "searchType",required = false, defaultValue = "title") String searchType,
+	         @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword
+	         )throws Exception{
 		
-		logger.debug("userboardpost --userno - {}", userNo);	
+		Paging paging = adminService.getPagingUserPost(userNo,curPage,filter,searchType,keyword);
 		
-		List<FreeBoard> fblist = adminService.userPost(userNo);
+		logger.debug("paging!!{}",paging);
+//		logger.debug("userboardpost --userno - {}", userNo);	
+		
+		List<FreeBoard> fblist = adminService.userPost(userNo,paging,filter,searchType,keyword);
+		
 		
 		model.addAttribute("fblist", fblist);
-		logger.debug("{}", fblist);
+	    model.addAttribute("paging", paging);
+	      model.addAttribute("filter", filter);
+	      model.addAttribute("searchType", searchType);
+	      model.addAttribute("keyword", keyword);
 	}
-	
-	
-	@RequestMapping("/removeuserpost")
-	public void removeuserpost(HttpServletResponse response,FreeBoard freeBoard) {
+	 
+	//사용자가 작성한 댓글 조회
+	@GetMapping("/usercmtpost")
+	public void usercmtpost(@RequestParam("userNo") int userNo, Model model,@RequestParam(defaultValue = "0") int curPage,
+	         @RequestParam(defaultValue = "date")  String filter, 
+	         @RequestParam(value = "searchType",required = false, defaultValue = "title") String searchType,
+	         @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword
+	         )throws Exception{
 		
-		adminService.removeuserpost(freeBoard);
-		try {
-	        response.sendRedirect("/admin/userboardpost?userNo="+freeBoard.getUserNo());
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+		Paging paging = adminService.getPagingUserCmt(userNo,curPage,filter,searchType,keyword);
 		
-	}
-	
-	
-	
-	@GetMapping("/ajax/cmtchkajax")
-	public void cmtChkAjax(int userno, Model model) {
-		logger.debug("/admin/ajax/cmtchkajax [GET]");
+		logger.debug("paging!@#{}:",paging);
+		List<Map<String, Object>> cmtList = adminService.userCmt(userNo,paging,filter,searchType,keyword);
+		logger.debug("usercmt!@#{}:",cmtList);
 		
-		logger.debug("ajax - {}", userno);
-		
-		List<FreeBoardComment> cmtList = adminService.userCmt(userno);
-		logger.debug("{}", cmtList);
 		
 		model.addAttribute("cmtList", cmtList);
+	    model.addAttribute("paging", paging);
+	      model.addAttribute("filter", filter);
+	      model.addAttribute("searchType", searchType);
+	      model.addAttribute("keyword", keyword);
 	}
 	
 	
 	
-	
-	
-	
-	
+	// 사용자가 작성한 게시물 삭제
+    @RequestMapping(value = "/removeuserpost", method = RequestMethod.GET)
+    public String postdelete(String freeboardNo,FreeBoard freeBoard) throws Exception {
+    	adminService.userBoardDelete(freeboardNo);
+    	return "redirect:/admin/userboardpost?userNo="+ freeBoard.getUserNo();
+    }
+    
+    //게시물 선택삭제
+    @RequestMapping(value = "/removeuserpost",method = RequestMethod.POST)
+    public String ajaxTest(HttpServletRequest request,FreeBoard freeBoard) throws Exception {
+            
+        String[] ajaxMsg = request.getParameterValues("valueArr");
+        int size = ajaxMsg.length;
+        for(int i=0; i<size; i++) {
+        	adminService.userBoardDelete(ajaxMsg[i]);
+        }
+    	return "redirect:/admin/userboardpost?userNo="+ freeBoard.getUserNo();
+    }	
+
+    
+    //사용자가 작성한 댓글 삭제 
+   @RequestMapping(value = "/removeusercmt", method = RequestMethod.GET)
+    public String cmtdelete(String cmtNo,FreeBoard freeBoard) throws Exception {
+    	adminService.removeusercmt(cmtNo);
+    	return "redirect:/admin/usercmtpost?userNo="+ freeBoard.getUserNo();
+    }
+    
+    //댓글 선택삭제
+    @RequestMapping(value = "/removeusercmt",method = RequestMethod.POST)
+    public String cmtajax(HttpServletRequest request,FreeBoard freeBoard) throws Exception {
+            
+        String[] ajaxMsg = request.getParameterValues("valueArr");
+        int size = ajaxMsg.length;
+        for(int i=0; i<size; i++) {
+        	adminService.removeusercmt(ajaxMsg[i]);
+        }
+    	return "redirect:/admin/usercmtpost?userNo="+ freeBoard.getUserNo();
+    }	
+
+
 	
 	
 

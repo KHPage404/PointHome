@@ -107,23 +107,69 @@
 		WHERE
 		u.user_no = #{userNo}
 	</select>
+	
+	
+<select id="selectUserPost" resultType="FreeBoard">
+  SELECT *
+  FROM (
+    SELECT rownum AS rnum, A.*
+    FROM (
+      SELECT user_no, FREEBOARD_NO, FREEBOARD_TITLE, FREEBOARD_HIT, FREEBOARD_DATE, freeboard_content
+      FROM freeboard
+      WHERE user_no = #{userNo}
+        <if test='searchType.equals("freeboard_title")'>
+          AND freeboard_title LIKE CONCAT(CONCAT('%', #{keyword}), '%')
+        </if>
+        <if test='searchType.equals("freeboard_content")'>
+          AND freeboard_content LIKE CONCAT(CONCAT('%', #{keyword}), '%')
+        </if>
+        <if test='searchType.equals("freeboard_titcont")'>
+          AND (freeboard_title LIKE CONCAT(CONCAT('%', #{keyword}), '%')
+          OR freeboard_content LIKE CONCAT(CONCAT('%', #{keyword}), '%'))
+        </if>
+        <choose>
+          <when test='filter.equalsIgnoreCase("date")'>
+            ORDER BY freeboard_no DESC
+          </when>
+          <when test='filter.equalsIgnoreCase("hit")'>
+            ORDER BY freeboard_hit DESC
+          </when>
+        </choose>
+    ) A
+  )
+  WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+</select>
 
-	<select id="selectUserPost" parameterType="int" resultType="FreeBoard">
-		SELECT user_no,FREEBOARD_NO, FREEBOARD_TITLE,
-		FREEBOARD_HIT,FREEBOARD_DATE, freeboard_content
-		from freeboard
-		where user_no = #{userNo}
-	</select>
 
-	<select id="selectUserCmt" parameterType="int"
-		resultType="FreeBoardComment">
-		select COMM_NO, COMM_CONTENT, COMM_DATE, FREEBOARD_NO
-		FROM
-		FREEBOARD_COMMENT
-		WHERE user_no = #{userNo}
-		ORDER BY FREEBOARD_NO desc,
-		comm_no desc
-	</select>
+<select id="selectUserCmt" parameterType="map" resultType="map">
+    select * from ( select * from (
+		  select rownum rnum, A.* from(
+		  SELECT fbc.comm_no, fbc.comm_content, fbc.comm_date, fbc.freeboard_no, fbc.user_no, fb.freeboard_title
+    FROM freeboard_comment fbc
+    INNER JOIN freeboard fb ON fbc.freeboard_no = fb.freeboard_no
+    WHERE fbc.user_no = #{userNo}
+        
+   
+         <if test='searchType.equals("comm_content")'>
+           and comm_content LIKE concat(concat('%', #{keyword}), '%')
+         </if>
+   
+         
+        <choose>
+            <when test='filter.equalsIgnoreCase("date")'>
+               ORDER BY comm_no DESC
+            </when>
+            <when test='filter.equalsIgnoreCase("commNo")'>
+               ORDER BY comm_no 
+            </when>
+         </choose>
+      
+      ) A
+      )
+    )
+</select>
+
+
 
 
 	<insert id="insertNotice" parameterType="AdminNotice">
@@ -472,11 +518,84 @@
       WHERE rnum BETWEEN #{paging.startNo} and #{paging.endNo}
 		
 	</select>
+
+ 
+ <delete id="userBoardDelete" parameterType="String">
+ delete from freeboard
+ where freeboard_no = #{freeboardNo}
+ 
+ </delete>
+ 
+ <select id="selectUserPostCntAll"  resultType="int">
+ select count(*) from ( select * from (
+		  select rownum rnum, A.* from(
+		  select *
+		  from freeboard
+			where user_no=#{userNo}
+        
+         <if test='searchType.equals("freeboard_title")'>
+          and freeboard_title LIKE concat(concat('%', #{keyword}), '%')
+         </if>
    
-   <delete id="deleteUserPost" parameterType="FreeBoard" >
-   		delete freeboard
-		where freeboard_no = #{freeboardNo}
-   	
-   </delete>
+         <if test='searchType.equals("freeboard_content")'>
+           and freeboard_content LIKE concat(concat('%', #{keyword}), '%')
+         </if>
+         
+         <if test='searchType.equals("freeboard_titcont")'>
+           and freeboard_title LIKE concat(concat('%', #{keyword}), '%')
+            or freeboard_content LIKE concat(concat('%', #{keyword}), '%')
+         </if>
+         
+        <choose>
+            <when test='filter.equalsIgnoreCase("date")'>
+               ORDER BY freeboard_no DESC
+            </when>
+            <when test='filter.equalsIgnoreCase("hit")'>
+               ORDER BY freeboard_hit DESC
+            </when>
+         </choose>
+      
+      ) A
+      )
+    )
+ </select>
+ 
+    <delete id="removeusercmt" parameterType="String">
+	 delete from FreeBoard_Comment
+ 	where comm_no = #{commNo}
+ 
+ </delete>
+ 
+ 
+ 
+ <select id="selectUserCmtCntAll"  resultType="int">
+ select count(*) from ( select * from (
+		  select rownum rnum, A.* from(
+		  SELECT fbc.comm_no, fbc.comm_content, fbc.comm_date, fbc.freeboard_no, fbc.user_no, fb.freeboard_title
+    FROM freeboard_comment fbc
+    INNER JOIN freeboard fb ON fbc.freeboard_no = fb.freeboard_no
+    WHERE fbc.user_no = #{userNo} 
+        
+      
    
+         <if test='searchType.equals("comm_content")'>
+           and comm_content LIKE concat(concat('%', #{keyword}), '%')
+         </if>
+
+         
+        <choose>
+            <when test='filter.equalsIgnoreCase("date")'>
+               ORDER BY comm_no DESC
+            </when>
+            <when test='filter.equalsIgnoreCase("commNo")'>
+               ORDER BY comm_no 
+            </when>
+         </choose>
+      
+      ) A
+      )
+    )
+ </select>
+ 
+ 
 </mapper>

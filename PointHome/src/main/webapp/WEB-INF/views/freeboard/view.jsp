@@ -196,6 +196,7 @@ function updateCom(th, commNo) {
 	<span id="recommend">
 		<span class="hit me-2">추천수 ${cntRecommend }</span>
 		
+		<c:if test="${userno ne board.userNo }">
 		<span>
 			<c:if test="${isRecommend eq 0 }">
 				<button id="recommendBtn" class="btn btn-secondary">>추천</button>
@@ -204,6 +205,7 @@ function updateCom(th, commNo) {
 				<button id="recommendBtn" class="btn btn-secondary">>추천 취소</button>
 			</c:if>
 		</span>
+		</c:if>
 		
 	</span>
 </div>
@@ -277,7 +279,7 @@ ${board.freeboardContent }
 
 	<a href="./list"><button class="btn btn-secondary">목록</button></a>
 
-<c:if test="${userno eq board.userNo}">
+<c:if test="${userno eq board.userNo || not empty adminLogin and adminLogin}">
 <a href="./update?freeboardNo=${board.freeboardNo}"><button type="button" class="btn btn-secondary" >수정</button></a>
 <button type="button" class="btn-reset-popup btn btn-secondary" >삭제</button>
 </c:if>
@@ -295,7 +297,7 @@ ${board.freeboardContent }
 
 
 
-<c:if test="${not empty login and login}">
+<c:if test="${not empty login and login || not empty adminLogin and adminLogin}">
 <!-- post 댓글 인서트 -->
 <form action="./view" method="post">
 ${userno} <input type="text" name="commContent" size="80" id="cmt">
@@ -319,7 +321,7 @@ ${userno} <input type="text" name="commContent" size="80" id="cmt">
 	<td><fmt:formatDate value="${boardCommentList.commDate }" pattern="yy/MM/dd hh:mm"/></td>
 	
 	<td class="commBtn">
-		<c:if test="${not empty userno and userno eq boardCommentList.userNo}">
+		<c:if test="${not empty userno and userno eq boardCommentList.userNo || not empty adminLogin and adminLogin}">
 			<div class="commBtnComment">
 				<button type="button" onclick="updateComment(this)" class="btn btn-secondary">수정</button>
 				<a href="./commentDelete?commNo=${boardCommentList.commNo}&freeboardNo=${board.freeboardNo}"><button type="button" class="btn btn-secondary">>삭제</button></a>

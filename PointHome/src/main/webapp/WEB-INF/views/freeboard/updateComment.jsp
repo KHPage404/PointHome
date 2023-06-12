@@ -155,7 +155,7 @@ function updateCom(th, commNo) {
 	<td><fmt:formatDate value="${boardCommentList.commDate }" pattern="yy/MM/dd hh:mm"/></td>
 	
 	<td class="commBtn">
-		<c:if test="${not empty userno and userno eq boardCommentList.userNo}">
+		<c:if test="${not empty userno and userno eq boardCommentList.userNo || not empty adminLogin and adminLogin}">
 			<div class="commBtnComment">
 				<button type="button" onclick="updateComment(this)" class="btn btn-secondary">수정</button>
 				<a href="./commentDelete?commNo=${boardCommentList.commNo}&freeboardNo=${board.freeboardNo}"><button type="button" class="btn btn-secondary">삭제</button></a>

@@ -15,7 +15,6 @@
 
 </style>
 
-
 <script type="text/javascript">
 $(function() {
    console.log("${paging.curPage}")
@@ -33,7 +32,7 @@ function filterSelect() {
    var userNo = "${param.userNo}";
    
 
-         location.href = "/admin/userboardpost" +"?userNo="+userNo+ "&searchType=" + searchType + "&keyword=" + keyword + "&filter=" + filter;
+         location.href = "/admin/usercmtpost" +"?userNo="+userNo+ "&searchType=" + searchType + "&keyword=" + keyword + "&filter=" + filter;
 
 
 }
@@ -54,7 +53,7 @@ window.onload=function(){
       console.log(searchType)
       console.log(keyword)
       
-      location.href = "/admin/userboardpost?curPage=1&userNo="+userNo + "&searchType=" + searchType + "&keyword=" + keyword;
+      location.href = "/admin/usercmtpost?curPage=1&userNo="+userNo + "&searchType=" + searchType + "&keyword=" + keyword;
    }
    var input = document.getElementById("search");
 
@@ -74,7 +73,7 @@ window.onload=function(){
       height: 16px;
    }
 </style>
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 		$(function(){
 			var chkObj = document.getElementsByName("RowCheck");
@@ -96,7 +95,7 @@ window.onload=function(){
 			});
 		});
 		function deleteValue(){
-			var url = "removeuserpost";    
+			var url = "removeusercmt";    
 			var valueArr = new Array();
 		    var list = $("input[name='RowCheck']");
 		    for(var i = 0; i < list.length; i++){
@@ -118,7 +117,7 @@ window.onload=function(){
 				    },
 	                success: function(jdata){
 	                    if(jdata = 1) {
-	                        location.replace("userboardpost?userNo=" + "${param.userNo}");
+	                        location.replace("usercmtpost?userNo=" + "${param.userNo}");
 	                    }
 	                    else{
 	                        alert("삭제 실패");
@@ -131,19 +130,14 @@ window.onload=function(){
 		
 	</script>
 
-
-
-
 <div class="container text-center">
 
    <h1 style="text-align: center">자유게시판</h1>
 
    <!-- 검색 기능 -->
-   <div class="input-group mt-2">
+  <div class="input-group mt-2">
       <select class="form-contril search-select" name="searchType">
-         <option value="freeboard_title">제목</option>
-         <option value="freeboard_content">내용</option>
-         <option value="freeboard_titcont">제목+내용</option>
+         <option value="comm_content">댓글내용</option>
       </select>
       <input name="keyword" type="text" 
          placeholder="검색어 입력" aria-label="search"
@@ -158,16 +152,16 @@ window.onload=function(){
          id="filter" name="filter" onchange="filterSelect()">
 
          <c:choose>
-            <c:when test="${filter eq 'hit' }">
-               <option value="date">날짜순</option>
-               <option value="hit" selected>조회순</option>
+            <c:when test="${filter eq 'date' }">
+               <option value="date" selected>날짜순</option>
+               <option value="commNo" >번호순</option>
             </c:when>
             <c:otherwise>
-               <option value="date" selected>날짜순</option>
-               <option value="hit">조회순</option>
+               <option value="date" >날짜순</option>
+               <option value="commNo" selected>번호순</option>
             </c:otherwise>
          </c:choose>
-      </select> 
+      </select>  
 
       <hr>
 
@@ -175,31 +169,26 @@ window.onload=function(){
          <thead>
             <tr>
            		<th> <input id="allCheck" type="checkbox" name="allCheck" class="form-check-input" /></th>	
-               <th>글번호</th>
-               <th>제목</th>
-               <th>조회수</th>
+               <th>댓글번호</th>
+               <th>댓글이 작성된 게시글</th>
+               <th>댓글내용</th>
                <th>작성일</th>
             </tr>
          </thead>
-         <c:forEach var="board" items="${fblist}">
+         <c:forEach var="board" items="${cmtList}">
             <tr>
-            	<td class="checkbox"><input name="RowCheck" type="checkbox" value="${board.freeboardNo}"/></td>
-               <td>${board.freeboardNo }</td>
-               <td class="text-start"><a href="/freeboard/view?freeboardNo=${board.freeboardNo }">${board.freeboardTitle }</a></td>
-               <td>${board.freeboardHit }</td>
-               <td><fmt:formatDate value="${board.freeboardDate }"
+            	<td class="checkbox"><input name="RowCheck" type="checkbox" value="${board.COMM_NO}"/></td>
+               <td>${board.COMM_NO }</td>
+               <td class="text-start"><a href="/freeboard/view?freeboardNo=${board.FREEBOARD_NO }">${board.FREEBOARD_TITLE }</a></td>
+               <td>${board.COMM_CONTENT }</td>
+               <td><fmt:formatDate value="${board.COMM_DATE }"
                      pattern="yy/MM/dd hh:mm" />
             </tr>
          </c:forEach>
       </table>
 
       <c:if test="${not empty adminLogin and adminLogin}">
-         <!-- 작성 버튼 -->
- <!--        <div class="float-end mb-3">
-            <a href="./write"><button id="btnWrite" class="btn btn-info">수정</button></a>
-         </div>
-         <div class="clearfix"></div> 
-          -->        
+       
          <div class="float-end mb-3">
          <input type="button" value="삭제" class="btn btn-outline-info" onclick="deleteValue();">
 		</div>
@@ -214,8 +203,7 @@ window.onload=function(){
    </div>
    <!-- div.container -->
 
-
-   <!-- 페이징 -->
+    <!-- 페이징 -->
    <div style="margin-bottom: 200px;">
       <!-- href로 링크만 넣어주면 됨 -->
       <ul class="pagination justify-content-center">
@@ -223,23 +211,23 @@ window.onload=function(){
        <!--   첫 페이지로 이동 -->
          <!--1번이 아닐때 = ne  -->
          <c:if test="${paging.curPage ne 1 }">
-            <li class="page-item"><a class="page-link" href="./userboardpost?userNo=${param.userNo }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&larr;
+            <li class="page-item"><a class="page-link" href="./usercmtpost?userNo=${param.userNo }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&larr;
                   처음</a></li>
          </c:if>
          <c:if test="${paging.curPage eq 1 }">
             <li class="page-item disabled"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&larr; 처음</a></li>
+               href="./usercmtpost?userNo=${param.userNo }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&larr; 처음</a></li>
          </c:if>
 
         <!--  이전 페이징 리스트로 이동 -->
          <c:if test="${paging.startPage ne 1 }">
             <li class="page-item"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&curPage=${paging.startPage - paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&laquo;</a></li>
+               href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.startPage - paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&laquo;</a></li>
          </c:if>
 
          <c:if test="${paging.startPage eq 1 }">
             <li class="page-item disabled"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&curPage=${paging.startPage - paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&laquo;</a></li>
+               href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.startPage - paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&laquo;</a></li>
          </c:if>
 
 
@@ -247,7 +235,7 @@ window.onload=function(){
 <!--          이전 페이지로 이동 -->
          <c:if test="${paging.curPage gt 1 }">
             <li class="page-item"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&curPage=${paging.curPage -1 }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&lt;</a></li>
+               href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.curPage -1 }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&lt;</a></li>
          </c:if>
 
 <!--          페이징 번호 리스트 -->
@@ -255,12 +243,12 @@ window.onload=function(){
             end="${paging.endPage }">
             <c:if test="${paging.curPage eq i }">
                <li class="page-item active"><a class="page-link"
-                  href="./userboardpost?userNo=${param.userNo }&curPage=${i }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">${i }</a></li>
+                  href="./usercmtpost?userNo=${param.userNo }&curPage=${i }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">${i }</a></li>
             </c:if>
 
             <c:if test="${paging.curPage ne i }">
                <li class="page-item "><a class="page-link"
-                  href="./userboardpost?userNo=${param.userNo }&curPage=${i }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">${i }</a></li>
+                  href="./usercmtpost?userNo=${param.userNo }&curPage=${i }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">${i }</a></li>
             </c:if>
 
          </c:forEach>
@@ -268,37 +256,35 @@ window.onload=function(){
 <!--          다음 페이지로 이동 -->
          <c:if test="${paging.curPage lt paging.totalPage }">
             <li class="page-item"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&curPage=${paging.curPage +1 }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&gt;</a></li>
+               href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.curPage +1 }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&gt;</a></li>
          </c:if>
 
 <!--          다음 페이징 리스트로 이동 -->
          <c:if test="${paging.endPage ne paging.totalPage}">
             <li class="page-item"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&curPage=${paging.startPage + paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&raquo;</a></li>
+               href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.startPage + paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&raquo;</a></li>
          </c:if>
 
          <c:if test="${paging.endPage eq paging.totalPage }">
             <li class="page-item disabled"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&curPage=${paging.startPage + paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&raquo;</a></li>
+               href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.startPage + paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&raquo;</a></li>
          </c:if>
 
          <!-- 마지막 페이지로 이동 -->
          <c:if test="${paging.curPage ne paging.totalPage }">
             <li class="page-item"><a class="page-link"
-               href="./userboardpost?userNo=${param.userNo }&curPage=${paging.totalPage }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">마지막&rarr; </a></li>
+               href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.totalPage }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">마지막&rarr; </a></li>
          </c:if>
          <c:if test="${paging.curPage eq paging.totalPage }">
-            <li class="page-item "><a class="page-link" href="./userboardpost?userNo=${param.userNo }&curPage=${paging.totalPage }&filter=${filter}&searchType=${searchType}&keyword=${keyword}"> 마지막&rarr; </a></li>
+            <li class="page-item "><a class="page-link" href="./usercmtpost?userNo=${param.userNo }&curPage=${paging.totalPage }&filter=${filter}&searchType=${searchType}&keyword=${keyword}"> 마지막&rarr; </a></li>
          </c:if>
       </ul>
 
    </div>
 
 </div> 
-
-
+   
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
-
-
+   

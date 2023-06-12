@@ -1,18 +1,21 @@
 @charset "UTF-8";
 
-a {
+.logo{
+	width:180px;
+	heitght:180px;
+}
+.category-item {
 	color: black;
 	text-decoration: none;
+    vertical-align: sub;
 }
 .layout_header {
-	margin: -8px 0px 0px 200px !important;
+	margin: -8px 0px 0px 150px !important;
+	height : 80px;
+	background-color:rgba(255, 255, 255);
 }
 .hambergerBtn{
 	margin-right: 30px;
-}
-.nav_header{
-	height : 80px;
-	background-color:rgba(255, 255, 255);
 }
 .category{
 	font-family : 'SBAggroM';

@@ -49,9 +49,13 @@ public interface PartnerDao {
 	 */
 	public Partner selectByPartnerEmailPw(Partner partner);
 
+	/**
+	 * 제휴사 타입별, 전체 총수 조회
+	 * 
+	 * @param pagingMap - 제휴사 타입별 페이징 객체
+	 * @return
+	 */
 	public int selectCntTypeAll(Map<String, Object> pagingMap);
-
-	
 	
 	/**
 	 * 제휴사 페이지에서 보여줄 예약 리스트 가져오기
@@ -70,8 +74,6 @@ public interface PartnerDao {
 	 */
 	public int selectCntReservation(int partNo);
 	
-	
-
 	/**
 	 * 파트너 -> 유저 공지사항 조회
 	 * 
@@ -171,36 +173,84 @@ public interface PartnerDao {
 	 * @return 게시글 정보 담은 DTO
 	 */
 	public PartnerNotice selectNoticebyNoticeNo(int partnerNoticeNo);
+	
 	/**
-	    * 게시글 번호에 해당하는 게시글 파일 목록 조회
-	    * 
-	    * @param noticeNo - 게시글 번호
-	    * @return - 게시글 번호에 해당하는 게시글 파일 목록
-	    */
-
+    * 게시글 번호에 해당하는 게시글 파일 목록 조회
+    * 
+    * @param noticeNo - 게시글 번호
+    * @return - 게시글 번호에 해당하는 게시글 파일 목록
+    */
 	public List<PartnerNoticeFile> selectNoticeFilebyNoticeNo(int partnerNoticeNo);
 	
 	/**
-	    * 게시글 수정
-	    * 
-	    * @param notice - 게시글 정보 담은 DTO
-	    */
+    * 게시글 수정
+    * 
+    * @param notice - 게시글 정보 담은 DTO
+    */
 	public void update(PartnerNotice partnerNotice);
 	
+	/**
+	 * 제휴사 타입에 따른 카테고리 분류, 회원이 찜한 제휴사가 담긴 페이징
+	 * 
+	 * @param curPage - 현재 페이지
+	 * @param paging - 페이징 객체
+	 * @param userNo - 회원 정보
+	 * @param partnerType - 제휴사 타입
+	 * @return 제휴사 타입, 유저가 찜한 제휴사 정보를 담은 페이징
+	 */
 	public List<Map<String, Object>> selectPartnerPick(@Param("curPage") int curPage, @Param("paging") Paging paging, @Param("userNo") int userNo, @Param("partnerType") String partnerType);
 
+	/**
+	 * 제휴사 정보 조회
+	 * 
+	 * @param partNo - 제휴사 번호
+	 * @return 제휴사 정보 담은 객체
+	 */
 	public Partner getPartInfo(int partNo);
 
+	/**
+	 * 제휴사 정보 수정
+	 * 
+	 * @param partner - 수정된 제휴사 정보 담은 DTO
+	 */
 	public void updatePartner(Partner partner);
 
+	/**
+	 * 제휴사 프로필 이미지 삭제
+	 * 
+	 * @param partnerFile - 제휴사 프로필 이미지 정보 담은 DTO
+	 */
 	public void deletePartFile(PartnerFile partnerFile);
 
+	/**
+	 * 제휴사 프로필 이미지 삽입
+	 * 
+	 * @param partnerFile - 제휴사 프로필 이미지 정보 담은 DTO
+	 */
 	public void insertPartFile(PartnerFile partnerFile);
 
+	/**
+	 * 제휴사 프로필 이미지 조회
+	 * 
+	 * @param partNo - 제휴사 번호
+	 * @return 제휴사 프로필 이미지 정보
+	 */
 	public PartnerFile getPartnerImg(int partNo);
 	
+	/**
+	 * 찜한 제휴사의 공지
+	 * 
+	 * @param partnerNotice - 제휴사 공지
+	 * @return 찜한 제휴사의 공지 내역
+	 */
 	public List<MyPick> selectPickList(PartnerNotice partnerNotice);
 	
+	/**
+	 * 찜한 제휴사 공지 삽입 시 알림 삽입
+	 * 
+	 * @param partnerNotice - 제휴사의 공지
+	 * @param mp - 찜한 제휴사 내역
+	 */
 	public void insertNoticeAlert(@Param("partnerNotice") PartnerNotice partnerNotice, @Param("pickUser") MyPick mp);
 
 	/**

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pointhome.www.admin.dto.Admin;
@@ -54,13 +55,13 @@ public interface AdminDao {
 	 * @param userno - 해당 유저
 	 * @return 해당 유저의 모든 게시글
 	 */
-	public List<FreeBoard> selectUserPost(int userNo);
+	public List<FreeBoard> selectUserPost(@Param("userNo") int userNo,@Param("paging") Paging paging, @Param("filter") String filter, @Param("searchType")  String searchType, @Param("keyword")  String keyword);
 	/**
 	 * 해당 유저를 통해 모든 댓글 조회
 	 * @param userno - 해당 유저 
 	 * @return 전체 댓글 조회
 	 */
-	public List<FreeBoardComment> selectUserCmt(int userno);
+	public List<Map<String, Object>> selectUserCmt(@Param("userNo") int userNo,@Param("paging") Paging paging, @Param("filter") String filter, @Param("searchType")  String searchType, @Param("keyword")  String keyword);
 
 	/**
 	 * 운영사 번호 조회
@@ -291,13 +292,34 @@ public interface AdminDao {
 
 	/**
 	 * 사용자가 작성한 게시글 삭제
-	 * @param userNo
+	 * @param freeboardNo
 	 */
-	public void deleteUserPost(FreeBoard freeBoard);
+	public void userBoardDelete(String freeboardNo);
+
+	/**
+	 * 총 공지사항 게시글 수 조회
+	 * @param type 
+	 * @param filter 
+	 * @return 총 게시글 수 
+	 */
+	public int selectUserPostCntAll(@Param("userNo") int userNo,@Param("filter") String filter, @Param("searchType") String searchType, @Param("keyword") String keyword);
+
+	/**
+	 * 사용자가 작성한 댓글 삭제
+	 * @param cmtNo
+	 */
+	public void removeusercmt(String cmtNo);
+
+	/**
+	 * 총 공지사항 댓글 수 조회
+	 * @param type 
+	 * @param filter 
+	 * @return 총 댓글 수 
+	 */
+	public int selectUserCmtCntAll(@Param("userNo") int userNo,@Param("filter") String filter, @Param("searchType") String searchType, @Param("keyword") String keyword);
 	
 
-	
-	
+
 
 	
 	

@@ -333,6 +333,9 @@
    	'R'  )
    </insert>
    
+   <select id="selectWriter" parameterType="FreeBoardComment" resultType="int">
+   	SELECT user_no FROM freeboard WHERE freeboard_no = #{freeboardNo}
+   </select>
    
 </mapper>
 

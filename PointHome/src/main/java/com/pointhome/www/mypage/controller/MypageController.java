@@ -23,6 +23,7 @@ import com.pointhome.www.freeboard.dto.FreeBoard;
 import com.pointhome.www.main.dto.Reservation;
 import com.pointhome.www.mypage.dto.Alert;
 import com.pointhome.www.mypage.dto.AlertRecomm;
+import com.pointhome.www.mypage.dto.Review;
 import com.pointhome.www.mypage.service.face.MypageService;
 import com.pointhome.www.partner.dto.Partner;
 import com.pointhome.www.partner.dto.PartnerFile;
@@ -91,8 +92,70 @@ public class MypageController {
 		
 		List<Map<String, Object>> reservelist = mypageService.selectReserve(userNo);
 		
-		logger.info("{}",reservelist);
+		for (Map<String, Object> map : reservelist) {
+			
+			map.get("RES_TIME");
+			logger.info("{}",map.get("RES_TIME"));
+
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==1) {
+				map.put("RESERVE_TIME", String.valueOf(map.get("RES_DATE")) + " " + "10:00" );
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==2) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "10:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==3) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "11:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==4) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "11:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==5) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "13:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==6) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "13:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==7) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "14:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==8) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "14:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==9) {
+				map.put("RESERVE_TIME",   String.valueOf(map.get("RES_DATE")) + " " + "15:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==10) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "15:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==11) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "16:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==12) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "16:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==13) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "17:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==14) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "17:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==15) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "18:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==16) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "18:30");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==17) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "19:00");
+			}
+			if(Integer.parseInt(String.valueOf(map.get("RES_TIME")))==18) {
+				map.put("RESERVE_TIME",  String.valueOf(map.get("RES_DATE")) + " " + "19:30");
+			}
+			
+		}
 		
+		logger.info("{}",reservelist);
+
 		model.addAttribute("reservelist", reservelist);
 		
 	}
@@ -212,23 +275,20 @@ public class MypageController {
 			
 		List<Map<String, Object>> alertlist = mypageService.selectAlList(userNo);
 		
-//		List<Map<String, Object>> recommlist = mypageService.selectREList(userNo);
-		
 		int alertCnt = mypageService.getAlertCnt(userNo);
 		
 		logger.info("{}", alertlist);
-//		logger.info("왜!!!!!!!!!!{}", recommlist);
 
 		model.addAttribute( "alarmList" , alertlist);
-//		model.addAttribute( "recommList" , recommlist);
 		model.addAttribute( "alertCnt" , alertCnt);
 		
 	}
 	
-	@RequestMapping("deleteAlert")
+	@RequestMapping("/deleteAlert")
 	public ModelAndView deleteAlertCnt(HttpSession session, Model model, ModelAndView mav) {
 
 		int userNo = (Integer)session.getAttribute("userno");
+		logger.info("{}", userNo);
 		mypageService.deleteAlert(userNo);
 		
 		mav.setViewName("jsonView");
@@ -237,6 +297,55 @@ public class MypageController {
 	
 	}
 	
+	@GetMapping("/writeReview")
+	public void writeReview(HttpSession session, int resNo) {
+		session.setAttribute("resNo", resNo);
+	}
+	
+	@PostMapping("/writeReview")
+	public String review(Review myreview, HttpSession session) {
+		logger.info("!!!!!!!!!!{}", myreview);
+		
+		int userNo = (Integer)session.getAttribute("userno");
+		int resNo = (Integer)session.getAttribute("resNo");
+		
+		myreview.setUserNo(userNo);
+		myreview.setResNo(resNo);
+		
+		logger.info("ㅎㅎㅎ!!!!!!!!!!{}", myreview);
+		
+		mypageService.insertReview(myreview);
+		
+		return "redirect: ./myreserve";
+	}
+	
+	@RequestMapping("/deleteReview")
+	public String deleteReview(HttpSession session, int resNo) {
+		int userNo = (Integer)session.getAttribute("userno");
+		
+		Review myreview = new Review();
+		
+		myreview.setUserNo(userNo);
+		myreview.setResNo(resNo);
+
+		
+		mypageService.deleteReview(myreview);
+		
+		return "redirect: ./myreserve";
+		
+	}
+	
+	@RequestMapping("/myReviewList")
+	public void myreviewList(HttpSession session, Model model) {
+		int userNo = (Integer)session.getAttribute("userno");
+		
+		List<Map<String, Object>> reviewList = mypageService.selectReviewList(userNo);
+		
+		logger.info("{}", reviewList);
+		
+		model.addAttribute("reviewlist", reviewList);
+		
+	}
 	
 	
 }

@@ -210,14 +210,45 @@ public interface FreeBoardDao {
     */
    public List<Map<String, Object>> selectAllSearch(@Param("paging") Paging paging, @Param("filter") String filter, @Param("searchType")  String searchType, @Param("keyword")  String keyword);
 
-
+   /**
+    * 댓글 달린 게시글 제목 조회
+    * 
+    * @param comment - 댓글 DTO 속 boardno
+    * @return 게시글 제목
+    */
    public String selectTitleByFreeboardNo(FreeBoardComment comment);
 
+   /**
+    * 댓글 달릴 때 알람 삽입
+    *
+    * @param comment - 댓글 DTO
+    * @param freeboardTitle - 댓글 달린 게시글 제목
+    */
    public void insettAlarm(@Param("comment") FreeBoardComment comment, @Param("freeboardTitle") String freeboardTitle);
 
+   /**
+    * 추천 달린 게시글 제목 조회
+    * 
+    * @param recommend - 추천 DTO 속 boardno
+    * @return 게시글 제목
+    */
    public String selectTitleByFreeboardReNo(FreeBoardRecommend recommend);
 
+   /**
+    * 추천 달릴 때 알람 삽입
+    * 
+    * @param recommend - 추천 DTO
+    * @param freeboardTitle - 게시글 제목
+    */
    public void insertAlertRecom(@Param("recommend") FreeBoardRecommend recommend, @Param("freeboardTitle") String freeboardTitle);
+   
+   /**
+    * 댓글 달린 게시글의 글쓴이 조회
+    * 
+    * @param comment - 댓글 DTO
+    * @return 게시글 글쓴이 
+    */
+   public int selectWriter(FreeBoardComment comment);
 
 
 }

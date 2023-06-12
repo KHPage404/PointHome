@@ -40,5 +40,12 @@ public interface MainDao {
 	 */
 	public List<Map<String, Object>> selectReviewListByPartNo(@Param("paging") Paging paging, @Param("partNo") int partNo);
 
+	/**
+	 * 예약시 알림 삽입
+	 * 
+	 * @param res - 예약 정보 담은 DTO
+	 */
+	public void insertReserveAlert(Reservation res);
+
 
 }

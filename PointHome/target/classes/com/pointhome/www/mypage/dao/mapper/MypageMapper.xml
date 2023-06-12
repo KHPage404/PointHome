@@ -86,12 +86,48 @@
 	</update>
 	
 	<select id="selectReserveList" parameterType="int" resultType="Map">
-		select P.partner_shopname, P.partner_phone, P.partner_email, P.partner_type
-        , R.*
-        from partner_tb P, reservation R
-		 where R.user_no = #{userNo}
-		and P.partner_no = R.part_no
-		order by res_no desc
+       SELECT * FROM
+       (SELECT ROWNUM rnum, PR.*
+        FROM(
+        SELECT P.partner_shopname, P.partner_phone, P.partner_email, P.partner_type
+        , R.*,
+        (SELECT COUNT(*) From review WHERE user_no = #{userNo} and res_no = R.res_no) isReview
+        FROM partner_tb P, reservation R
+        WHERE R.user_no = #{userNo}
+		AND P.partner_no = R.part_no
+		ORDER BY res_no DESC) PR
+        ORDER BY rnum
+        )
+	</select>
+	
+		<insert id="insertMyReview" parameterType="Review">
+		<selectKey order="BEFORE" resultType="int" keyProperty="partNo">
+			select part_no from reservation where user_no = #{userNo} and res_no = #{resNo}
+		</selectKey>
+		INSERT INTO review (review_no, review_title, review_content, review_grade, user_no, res_no,  part_no)
+		VALUES
+		(
+		review_no_seq.nextval,
+		#{reviewTitle},
+		#{reviewContent},
+		#{reviewGrade},
+		#{userNo},
+		#{resNo},
+		#{partNo}
+		)
+	</insert>
+
+	<delete id="deleteMyReview" parameterType="Review">
+		DELETE FROM review
+		WHERE user_no = #{userNo} AND res_no = #{resNo}
+	</delete>
+	
+	<select id="selectMyReviewList" parameterType="int" resultType="Map">
+		select PT.partner_shopname, PT.partner_type,
+		R.*
+		FRom partner_tb PT, review R
+		where pt.partner_no = R.part_no
+		and user_no = #{userNo}
 	</select>
 	
 </mapper>

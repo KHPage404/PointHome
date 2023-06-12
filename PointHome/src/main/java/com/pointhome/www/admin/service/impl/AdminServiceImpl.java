@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pointhome.www.admin.dao.face.AdminDao;
@@ -73,8 +74,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<FreeBoard> userPost(int userNo) {
-		List<FreeBoard> fbList = adminDao.selectUserPost(userNo);
+	public List<FreeBoard> userPost(int userNo,Paging paging, String filter, String searchType,
+	         String keyword) {
+		List<FreeBoard> fbList = adminDao.selectUserPost(userNo,paging, filter, searchType, keyword);
 		
 		return fbList;
 		
@@ -82,8 +84,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<FreeBoardComment> userCmt(int userno) {
-		List<FreeBoardComment> cmtList = adminDao.selectUserCmt(userno);
+	public List<Map<String, Object>> userCmt(int userno,Paging paging, String filter, String searchType, String keyword) {
+		List<Map<String, Object>> cmtList = adminDao.selectUserCmt(userno,paging, filter, searchType, keyword);
 		return cmtList;
 	}
 
@@ -413,11 +415,34 @@ public class AdminServiceImpl implements AdminService {
 	      
 	      return paging;
 	}
+
+	@Override
+	public void userBoardDelete(String freeboardNo) {
+		
+		adminDao.userBoardDelete(freeboardNo);
+	}
+	@Override
+	public Paging getPagingUserPost(int userNo,int curPage, String filter, String searchType, String keyword) {
+	
+		int totalPage = adminDao.selectUserPostCntAll(userNo,filter, searchType, keyword);
+	      
+	      Paging paging = new Paging(totalPage, curPage); 
+	      
+		return paging;
+	}
 	
 	@Override
-	public void removeuserpost(FreeBoard freeBoard) {
-		
-		 adminDao.deleteUserPost(freeBoard);
+	public void removeusercmt(String cmtNo) {
+		adminDao.removeusercmt(cmtNo);
 	}
 
+	@Override
+	public Paging getPagingUserCmt(int userNo, int curPage, String filter, String searchType, String keyword) {
+		int totalPage = adminDao.selectUserCmtCntAll(userNo,filter, searchType, keyword);
+	      
+	      Paging paging = new Paging(totalPage, curPage); 
+	      
+		return paging;
+	}
+	
 }

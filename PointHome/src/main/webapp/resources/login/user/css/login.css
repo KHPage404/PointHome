@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+body {
+	font-family: SBAggroM;
+}
+.nav-link{
+	color: gray;
+}
+.title{
+	margin: 100px auto;
+	width:300px; 
+	heitght:300px;
+	display: flex;
+    justify-content: center;
+}
+.background{
+	width: 600px;
+	height: 750px;
+	background-color: white;
+	margin: 0 auto;
+	border-radius: 50px;
+}
+.login-switch{
+	margin: 20px 100px;
+}
+.login-info{
+	margin: 20px 100px;
+	margin: 20px 100px;
+}
+.search-info{
+	justify-content: center;
+	margin: 20px;
+}
+.btn-login{
+	width : 400px;
+	display: flex;
+	margin: 10px auto;
+	background-color: #7e00c2;
+	color: white;
+}
+.btn-signup{
+	width : 400px;
+	display: flex;
+	margin: 10px auto;
+	color: gray;
+}

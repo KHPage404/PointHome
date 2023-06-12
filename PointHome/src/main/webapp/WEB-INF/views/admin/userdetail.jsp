@@ -116,8 +116,8 @@ $( () => {
 
 				<th>댓글 개수</th>
 				<td>${detailList.FREEBOARDCOMMENT}
-					<button id="cmtChk" type="button" class="btn btn-primary">댓글
-						확인</button>
+					<a href="usercmtpost?userNo=${param.userNo }"><button id="cmtChk" type="button" class="btn btn-primary">댓글
+						확인</button></a>
 				</td>
 			</tr>
 

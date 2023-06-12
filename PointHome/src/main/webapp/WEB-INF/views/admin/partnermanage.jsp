@@ -47,6 +47,14 @@ window.onload=function(){
       
       location.href = "/admin/partnermanage?curPage=1" + "&searchType=" + searchType + "&keyword=" + keyword;
    }
+   var input = document.getElementById("search");
+
+   input.addEventListener("keyup", function (event) {
+     if (event.keyCode === 13) {
+       event.preventDefault();
+       document.getElementById("searchBtn").click();
+     }
+   });   
 }
 </script>
 
@@ -59,7 +67,7 @@ window.onload=function(){
          <option value="partner_nick">닉네임</option>
       </select>
       <input name="keyword" type="text" placeholder="검색어 입력" aria-label="search"
-   aria-describedby="button-addon2" name="serchName" >
+   aria-describedby="button-addon2" name="serchName" id="search">
          
       <button class="btn btn-info" type="button" id="searchBtn" >검색</button>
    </div>

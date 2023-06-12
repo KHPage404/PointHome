@@ -8,7 +8,7 @@
 	<!-- DB접속 정보 -->
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-       <property name="url" value="jdbc:oracle:thin:@Point_medium?TNS_ADMIN=C:/Projects/FinalProject/Wallet_Point"/>
+       <property name="url" value="jdbc:oracle:thin:@Point_medium?TNS_ADMIN=D:/Projects/FinalProject/Wallet_Point"/>
        <property name="username" value="admin"/>
        <property name="password" value="Point!@34!@34!@34"/>
    </bean>

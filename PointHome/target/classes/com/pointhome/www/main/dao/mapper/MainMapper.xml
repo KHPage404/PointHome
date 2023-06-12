@@ -47,6 +47,17 @@
 		WHERE rnum BETWEEN #{paging.startNo} and #{paging.endNo}
 	</select>
 	
+	<insert id="insertReserveAlert" parameterType="Reservation">
+		INSERT INTO user_alert(alert_no, user_no, is_read, content, num, type)
+		VALUES
+		(user_alert_no_seq.nextval, 
+	   	#{userNo}, 
+	   	'N', 
+	   	'결제가 완료되었습니다.', 
+	   	#{resNo}, 
+	   	'P')
+	</insert>
+	
 </mapper>
 
 

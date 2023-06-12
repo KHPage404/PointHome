@@ -172,8 +172,7 @@ public class FreeBoardController {
       FreeBoard board = freeBoardService.view(freeboardNo);
       model.addAttribute("board", board);
       
-      
-      comment.setUserNo((Integer)session.getAttribute("userno"));   
+//      comment.setUserNo((Integer)session.getAttribute("userno"));   
       
       
       freeBoardService.updateComment(comment);

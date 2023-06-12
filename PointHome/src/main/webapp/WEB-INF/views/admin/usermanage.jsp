@@ -50,6 +50,14 @@ window.onload=function(){
       
       location.href = "/admin/usermanage?curPage=1" + "&searchType=" + searchType + "&keyword=" + keyword;
    }
+   var input = document.getElementById("search");
+
+   input.addEventListener("keyup", function (event) {
+     if (event.keyCode === 13) {
+       event.preventDefault();
+       document.getElementById("searchBtn").click();
+     }
+   });   
 }
 </script>
 
@@ -62,7 +70,7 @@ window.onload=function(){
          <option value="user_nick">닉네임</option>
       </select>
       <input name="keyword" type="text" placeholder="검색어 입력" aria-label="search"
-   aria-describedby="button-addon2" name="serchName" >
+   aria-describedby="button-addon2" name="serchName" id="search">
          
       <button class="btn btn-info" type="button" id="searchBtn" >검색</button>
    </div>
@@ -150,7 +158,7 @@ window.onload=function(){
                href="./usermanage?filter=${filter}&searchType=${searchType}&keyword=${keyword}">&larr; 처음</a></li>
          </c:if>
 
-
+ <!--  이전 페이징 리스트로 이동 -->
          <c:if test="${paging.startPage ne 1 }">
             <li class="page-item"><a class="page-link"
                href="./usermanage?curPage=${paging.startPage - paging.pageCount }&filter=${filter}&searchType=${searchType}&keyword=${keyword}">&laquo;</a></li>

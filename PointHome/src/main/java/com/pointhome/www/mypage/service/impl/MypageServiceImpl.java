@@ -18,6 +18,7 @@ import com.pointhome.www.freeboard.dto.FreeBoard;
 import com.pointhome.www.main.dto.Reservation;
 import com.pointhome.www.mypage.dao.face.MypageDao;
 import com.pointhome.www.mypage.dto.MyPick;
+import com.pointhome.www.mypage.dto.Review;
 import com.pointhome.www.mypage.service.face.MypageService;
 import com.pointhome.www.user.dto.User;
 import com.pointhome.www.user.dto.UserFile;
@@ -130,11 +131,6 @@ public class MypageServiceImpl implements MypageService {
 		return mypageDao.selectAlarmList(userNo);
 	}
 
-//	@Override
-//	public List<Map<String, Object>>  selectREList(int userNo) {
-//		return mypageDao.selectReList(userNo);
-//	}
-	
 	@Override
 	public int getAlertCnt(int userNo) {
 		return mypageDao.selectAlertCnt(userNo);
@@ -149,6 +145,23 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> selectReserve(int userNo) {
 		return mypageDao.selectReserveList(userNo);
 	}
+	
+	@Override
+	public void insertReview(Review myreview) {
+		mypageDao.insertMyReview(myreview);
+	}
+
+	@Override
+	public void deleteReview(Review myreview) {
+		mypageDao.deleteMyReview(myreview);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectReviewList(int userNo) {
+		return mypageDao.selectMyReviewList(userNo);
+	}
+	
+	
 	
 
 }
