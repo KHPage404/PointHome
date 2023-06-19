@@ -16,6 +16,9 @@
                 <img src="../resources/main/img/notice_partnership.png" class="d-block w-100 h-auto" alt="...">
             </div>
             <div class="carousel-item">
+                <a href="/main/detail?partNo=302"><img src="../resources/main/img/하나보살배너.png" class="d-block w-100 h-auto" alt="..."></a>
+            </div>
+            <div class="carousel-item">
                 <img src="../resources/main/img/소원암.png" class="d-block w-100 h-auto" alt="...">
             </div>
             <div class="carousel-item">
