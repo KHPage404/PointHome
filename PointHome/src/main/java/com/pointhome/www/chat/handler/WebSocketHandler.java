@@ -16,11 +16,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 	public class WebSocketHandler extends TextWebSocketHandler {
 		private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
-//		@Autowired ChatService chatService;
-		
-		// 웹소켓 세션을 담는 리스트 생성
-//		List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
-		
 		// 유저의 세션을 저장
 		List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 		
@@ -39,7 +34,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 			// 방번호를 split으로 잘라서 방번호를 받기
 			String roomId = session.getUri().toString().split("/")[4];
 
-			logger.debug("**roomid***{}", roomId);
+			//logger.debug("**roomid***{}", roomId);
 			
 			session.getAttributes().put("roomId", roomId);
 			
@@ -63,8 +58,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 			
 			// 유저가 연결했을 때 sessionMap에 추가
 			
-			
-
 			System.out.println("연결됨 : " + session.getId());
 			
 		}
@@ -95,17 +88,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 			for(WebSocketSession se : roomUser.get(roomId)) {
 		         logger.info("testtesttest - {}",roomUser.get(roomId));
 		         se.sendMessage(message);
-		      }
-				
-			
-//			 연결된세션들에게 메시지를 보낼때
-//			 현재 시간 보내기
-//			SimpleDateFormat stf = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
-//			String strDate=stf.format(new Date());
-//			msg +="|"+strDate;
-//			for (WebSocketSession webSocketSession : session) {
-//				webSocketSession.sendMessage(new TextMessage(msg));
-//			}		
+		      }	
 		
 		}
 

@@ -259,10 +259,7 @@ public class mainController {
 	                     logger.info("method : {}", jsonObject.get("method")); 
 
 	                     if(jsonObject.get("method").equals("카드")) {  logger.info("method : {}",(((JSONObject)jsonObject.get("card")).get("number")));}
-	                     if(jsonObject.get("method").equals("가상계좌")) { logger.info("method : {}",(((JSONObject)jsonObject.get("virtualAccount")).get("accountNumber")));} 
-	                     if(jsonObject.get("method").equals("계좌이체")) { logger.info("method : {}",(((JSONObject)jsonObject.get("transfer")).get("bank")));}
-	                     if(jsonObject.get("method").equals("휴대폰")) { logger.info("method : {}",(((JSONObject)jsonObject.get("mobilePhone")).get("customerMobilePhone")));}     
-
+	             
 	                    } else { 
 	                   //결제 실패
 	                        logger.info("method : {}", jsonObject.get("message")); 

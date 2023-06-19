@@ -82,7 +82,7 @@ pageEncoding="UTF-8"%>
 		max-width: 80%;
 		border: 1px solid;
 		padding: 5px;
-		border-radius: 10px 10px 10px 10px;
+		border-radius: 10px 10px 0px 10px;
 		color: white;
 		background-color: #E966A0;
 		text-align: right;      
