@@ -17,7 +17,7 @@
 <!-- 폰트모음 -->
 <link href="/resources/common/css/font.css" rel="stylesheet">
 
-<link href="/resources/login/user/css/searchid.css?d=<%= new Date() %>" rel="stylesheet">
+<link href="/resources/login/user/css/searchresult.css?d=<%= new Date() %>" rel="stylesheet">
 <link href="/resources/login/user/css/ani-background.css" rel="stylesheet">
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -40,26 +40,22 @@
 </svg>
 </a>
 <!-- 로고 운칠기삼 end -->
-<h1 class="text-center text-dark searchid-title mt-5">결과</h1>
+
+<h1 class="text-center text-dark searchid-title mt-5">조회 결과</h1>
+
 <!-- 사용자 / 제휴사 로그인 스위치 end -->
 <div class="login-info">
 
 	<hr>
 	<c:if test="${not empty user.userEmail}">
-	<div class="text-dark fs-3 mb-3 mt-5">
-		조회된 이메일 
-	</div>
-	<div class="text-dark fs-5 mb-5">
+	<div class="text-dark fs-5 mt-5 mb-5">
 		${user.userEmail}
 	</div>
 	</c:if>
 	
-	<c:if test="${not empty user.userPw}">
-	<div class="text-dark">
-		조회된 비밀번호
-	</div>
+	<c:if test="${not empty msg}">
 	<div class="text-dark fs-5 mb-5">
-		${user.userPw}
+		${msg }
 	</div>
 	</c:if>
 	

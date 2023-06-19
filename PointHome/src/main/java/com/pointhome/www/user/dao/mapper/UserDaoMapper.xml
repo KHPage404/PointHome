@@ -42,16 +42,16 @@
 
 	<select id="selectCntByUserEmailPw" resultType="int" parameterType="User">
 		SELECT count(*) FROM user_tb
-		WHERE 1=1 AND 
-			user_email = #{userEmail} AND
-			user_pw = #{userPw}
+		WHERE 1=1 
+			AND user_email = #{userEmail} 
+			AND user_pw = #{userPw}
 	</select>	
 
 	<select id="selectByUserEmailPw" resultType="User" parameterType="User">
 		SELECT user_no,user_nick FROM user_tb
-		WHERE 1=1 AND 
-			user_email = #{userEmail} AND
-			user_pw = #{userPw}
+		WHERE 1=1 
+			AND user_email = #{userEmail} 
+			AND user_pw = #{userPw}
 	</select>	
 	
 	<select id="selectCntByUserEmailPhone" resultType="int" parameterType="User">
@@ -104,6 +104,13 @@
 		SELECT user_Phone FROM user_tb
 		WHERE user_Phone = #{userPhone}
 	</select>
+
+	<update id="updateUserPw" parameterType="User">
+		UPDATE user_tb
+			SET user_Pw = #{userPw}
+		WHERE user_Email = #{userEmail}
+	</update>
+	
 	
 </mapper>
 

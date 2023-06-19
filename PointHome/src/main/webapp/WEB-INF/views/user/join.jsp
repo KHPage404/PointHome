@@ -93,7 +93,6 @@ $( ()=> {
 		<div class="form-floating col-5">
 			<input type="text" class="form-control" name="Email" id="Email" placeholder="이메일" value="${userInfo.userEmail}"> 
 			<label for="Email">이메일</label>
-			<span id="msgEmail"></span>
 		</div>
 	
 		<div class="form-floating col-5">
@@ -117,7 +116,7 @@ $( ()=> {
 	<c:if test="${userInfo.userNick eq null}">
 		
 			<div class="form-floating col-5">
-				<input type="email" class="form-control" name="Email" id="Email" placeholder="이메일"> 
+				<input type="text" class="form-control" name="Email" id="Email" placeholder="이메일"> 
 				<label for="Email">이메일</label>
 				<span class="invalid-feedback" id="msgEmail"></span>
 			</div>
@@ -139,7 +138,7 @@ $( ()=> {
 	</c:if>
 	<!-- 소셜가입이 아닐 경우, 입력받을 이메일 시작 -->
 
-	<input type="hidden" class="form-control" name="userEmail" id="userEmail" placeholder="이메일">
+	<input type="hidden" class="form-control" name="userEmail" id="userEmail" placeholder="이메일" value="${userInfo.userEmail}">
 </div>
 <!-- ----------------- -->
 <!-- 이메일 입력 폼 끝 -->
@@ -340,7 +339,7 @@ $( ()=> {
 
 <div class="d-grid mb-5">
 	<button class="btn btn-join btn-lg" onclick="fn_validate">가입하기</button>
-	<a href="javascript:history.back()" class="btn btn-secondary btn-lg" type="button">취소</a>
+	<a href="/user/login" class="btn btn-secondary btn-lg" type="button">취소</a>
 </div>
 
 </form>

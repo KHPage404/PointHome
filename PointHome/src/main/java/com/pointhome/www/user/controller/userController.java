@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.JsonObject;
+import com.pointhome.www.mail.service.face.MailService;
 import com.pointhome.www.user.dto.User;
 import com.pointhome.www.user.dto.UserSocial;
 import com.pointhome.www.user.service.face.UserService;
@@ -30,6 +32,7 @@ public class userController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired UserService userService;
+	@Autowired MailService mailService;
 	
 	@GetMapping("/user/test")
 	public void test() {
@@ -44,7 +47,7 @@ public class userController {
 	}
 
 	@PostMapping("/user/join")
-	public String joinProc(User user, UserSocial socialParam, HttpSession session) {
+	public String joinProc(User user, UserSocial socialParam, Model model, HttpSession session) {
 		session.removeAttribute("EmailCode");
 
 		logger.debug("/user/join [POST]");
@@ -59,10 +62,12 @@ public class userController {
 		
 		if(socialParam.getSocialId() != null) {
 
+			User snsUser = userService.getUser(user);
 			socialParam.setUserNo(userNo);
 			logger.debug("socialParam : {}", socialParam);
 			userService.addUserSocial(socialParam);
-			session.setAttribute("login", true); 
+			session.setAttribute("login", true);
+			session.setAttribute("usernick", snsUser.getUserNick());
 			session.setAttribute("userno", socialParam.getUserNo()); 
 			session.setMaxInactiveInterval(30*60); // 세션 유지시간 30분
 
@@ -84,9 +89,9 @@ public class userController {
 	public String loginProc(User Param, HttpSession session, String keepLogin) {
 		logger.debug("/user/login [POST]");
 		logger.debug("Param :{}", Param);
-		logger.debug("keepLogin : {}", keepLogin);
 		
 		Boolean login = userService.isLogin(Param);
+		logger.debug("login조회 결과 : {}", login);
 		
 		if (login) {
 			
@@ -150,7 +155,7 @@ public class userController {
 	}
 
 	@PostMapping("/user/searchid")
-	public String searchIdProc(User param, Model model, HttpSession session) {
+	public String searchIdProc(User param, Model model, HttpSession session, RedirectAttributes redirectAttr) {
 		logger.debug("/user/searchid [POST]");
 		
 		User user = userService.getUserEmailByNamePhone(param);
@@ -158,14 +163,13 @@ public class userController {
 		if(user == null) {
 			
 			logger.debug("조회결과 없음 : {}", user);
-			session.setAttribute("msg", "찾으시는 정보가 없습니다.");
+			redirectAttr.addFlashAttribute("msg", "찾으시는 정보가 없습니다.");
 			return "redirect:/user/searchid";
 			
 		} else {
-			session.removeAttribute("msg");
 			logger.debug("조회결과 있음 :{}", user);
-			model.addAttribute("user", user);
-			return "/user/searchresult";
+			redirectAttr.addFlashAttribute("user", user);
+			return "redirect:/user/searchresult";
 		}
 
 	}
@@ -178,23 +182,36 @@ public class userController {
 	}
 	
 	@PostMapping("/user/searchpw")
-	public String searchpwProc(User param, Model model, HttpSession session) {
+	public String searchpwProc(User param, Model model, HttpSession session, RedirectAttributes redirectAttr) {
 		logger.debug("/user/searchpw [POST]");
-
-		User user = userService.getUserByEmailPhone(param);
-		logger.debug("{}", user);
+		logger.debug("form으로부터 입력 받은 param : {}", param.getUserEmail());
+		logger.debug("form으로부터 입력 받은 param : {}", param.getUserPhone());
 		
-		if(user == null) {
+		User user = userService.getUserByEmailPhone(param);
+
+		// 입력받은 Eamil로 가입이 가능한 경우 메일 발송
+		if (user != null) {
+			// 인증코드 난수 발생 메소드
+			int authNumber = mailService.makeRandomNumber();
+			logger.debug("생성된 인증 코드 : {}", authNumber);
 			
-			logger.debug("조회결과 없음 : {}", user);
-			session.setAttribute("msg", "찾으시는 정보가 없습니다.");
-			return "redirect:/user/searchpw";
+			// 메일을 발송 후 비밀번호가 변경도니 User객체 반환
+			User changePwUser = mailService.updatePwEmail(user, authNumber);
+
+			userService.changeUserPw(changePwUser);
+			
+			redirectAttr.addFlashAttribute("msg", "임시 비밀번호를 발송하였습니다.");
+			
+			return "redirect:/user/searchresult";
 			
 		} else {
-			session.removeAttribute("msg");
-			logger.debug("조회결과 있음 :{}", user);
-			model.addAttribute("user", user);
-			return "/user/searchresult";
+
+			logger.debug("조회된 User정보가 없습니다");
+			
+			redirectAttr.addFlashAttribute("msg", "입력하신 정보를 확인해주세요.");
+			
+			return "redirect:/user/searchpw";
+
 		}
 
 	}
