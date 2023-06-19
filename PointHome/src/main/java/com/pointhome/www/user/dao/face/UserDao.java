@@ -46,11 +46,10 @@ public interface UserDao {
 	public int selectCntByUserEmailPhone(User userInfo);
 
 	/**
-	 * 소셜로그인에 성공한 사용자의
-	 * userNo을 조회
+	 * 사용자의 정보를 조회
 	 * 
-	 * @param userInfo - 소셜로그인한 회원의 정보
-	 * @return - 회원가입 되어있는 사용자의 userNo
+	 * @param userInfo - 회원의 정보
+	 * @return - 회원가입 되어있는 사용자의 정보
 	 */
 	public User selectUserNoByEmailPhone(User userInfo);
 	
@@ -98,10 +97,10 @@ public interface UserDao {
 	public User selectUserEmailByNamePhone(User param);
 
 	/**
-	 * 사용자 비밀번호 찾기에 사용되는 메소드
-	 * @param param - userEmail, userPhone
-	 * @return User - userPw
+	 * 발급된 임시 비밀번호로 회원의 비밀번호를 변경
+	 * @param sendNumber - 발급된 임시 비밀번호
 	 */
-	public User selectUserByNamePhone(User param);
+	public void updateUserPw(User changePwUser);
+
 
 }

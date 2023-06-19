@@ -85,7 +85,7 @@ $(()=> {
 <!-- 로그인 정보 입력 end -->
 
 <!--  확인 / 뒤로가기 버튼 start -->
-<button class="btn btn-lg btn-login">&nbsp;&nbsp;&nbsp;확인&nbsp;&nbsp;&nbsp;</button>
+<button class="btn btn-lg btn-login">확인</button>
 <a href="/user/login" class="btn btn-outline-secondary btn-lg btn-signup" type="button">뒤로가기</a>
 <!--  확인 / 뒤로가기 버튼 end -->
 

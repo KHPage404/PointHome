@@ -171,12 +171,17 @@ public interface UserService {
 	public Map<String, Object> getUserByPhone(Map<String, Object> jsonData);
 
 	/**
-	 * 비밀번호을 찾는 메소드
-	 * 
-	 * @param param
-	 * @return
+	 * 사용자 비밀번호 찾기시, 회원을 조회하는 메소드
+	 * @param param - 입력받은 이메일, 연락처
+	 * @return User - 조회된 회원의 정보
 	 */
 	public User getUserByEmailPhone(User param);
+
+	/**
+	 * 발급된 임시 비밀번호로 회원의 비밀번호를 변경
+	 * @param sendNumber - 발급된 임시 비밀번호
+	 */
+	public void changeUserPw(User changePwUser);
 
 
 }

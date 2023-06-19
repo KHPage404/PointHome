@@ -23,13 +23,21 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script type="text/javascript">
 
-	if(not empty msg){
-		alert(msg);
-	}
+$(()=> {
+	
+	const msg = $('#msg');
+	console.log(msg);
+	console.log(msg.val());
 
+	if(msg.val() == "입력하신 정보를 확인해주세요."){
+		alert(msg.val());
+	}
+})
 </script>
 </head>
 <body>
+
+<input type="hidden" id="msg" value="${msg}">
 
 <!-- 애니메이션 배경 start -->
 <div class="background-ani">
@@ -76,8 +84,8 @@
 <!-- 로그인 정보 입력 end -->
 
 <!--  확인 / 뒤로가기 버튼 start -->
-<button class="btn btn-lg btn-login">&nbsp;&nbsp;&nbsp;확인&nbsp;&nbsp;&nbsp;</button>
-<a href="javascript:window.history.go(-1);" class="btn btn-outline-secondary btn-lg btn-signup" type="button">뒤로가기</a>
+<button class="btn btn-lg btn-login">확인</button>
+<a href="/user/login" class="btn btn-outline-secondary btn-lg btn-signup" type="button">뒤로가기</a>
 <!--  확인 / 뒤로가기 버튼 end -->
 
 <!-- 아이디 찾기 / 비밀번호 찾기 start -->

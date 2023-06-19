@@ -513,8 +513,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserByEmailPhone(User param) {
 
-		
-		return userDao.selectUserByNamePhone(param);
+		return userDao.selectUserNoByEmailPhone(param);
 	}
-
+	
+	@Override
+	public void changeUserPw(User changePwUser) {
+		userDao.updateUserPw(changePwUser);
+	}
 }

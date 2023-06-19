@@ -1,5 +1,7 @@
 package com.pointhome.www.mail.service.face;
 
+import com.pointhome.www.user.dto.User;
+
 public interface MailService {
 
 	/**
@@ -24,5 +26,15 @@ public interface MailService {
 	 * @return authNumber - (String)인증코드 : 111111 ~ 999999 (6자리 난수)
 	 */
 	public String joinEmail(String email, int authNumber);
+
+	/**
+	 * 회원 비밀번호 찾기시
+	 * 메일을 발송하는 메소드
+	 * 
+	 * @param param - 조회된 회원의 정보
+	 * @param authNumber - 임시비밀번호로 발송할 난수
+	 * @return User - 임시비밀번호를 가진 User객체
+	 */
+	public User updatePwEmail(User param, int authNumber);
 	
 }
