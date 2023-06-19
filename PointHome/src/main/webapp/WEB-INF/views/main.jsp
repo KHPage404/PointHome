@@ -19,7 +19,7 @@
                 <img src="../resources/main/img/소원암.png" class="d-block w-100 h-auto" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="../resources/main/img/타로안내_배너.png" class="d-block w-100 h-auto" alt="...">
+                <img src="../resources/main/img/타로안내배너.png" class="d-block w-100 h-auto" alt="...">
             </div>
         </div>
 

@@ -51,9 +51,11 @@ function kakaoPostcode() {
             // 커서를 상세주소 필드로 이동한다.
             document.getElementById("userDetailAddress").focus();
 
+
             // iframe을 넣은 element를 안보이게 한다.
             // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
             element_layer.style.display = 'none';
+
         },
         width : '100%',
         height : '100%',

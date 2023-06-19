@@ -51,7 +51,7 @@ public interface PartnerService {
 	 * @param filterchar 
 	 * @return 모든 공지 게시글
 	 */
-	public List<PartnerNotice> noticeList(Paging paging);
+	public  List<Map<String,Object  >> noticeList(Paging paging);
 
 	/**
 	 * 제휴사 또는 사용자에게 보여질 공지사항을 삽입한다

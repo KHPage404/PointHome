@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:import url="../layout/header.jsp" />
-
+<c:import url="/WEB-INF/views/layout/partnerLayout/header.jsp" />
 <style type="text/css">
 .partnernoticeView {
 	font-family: SBAggroM;
@@ -90,7 +89,7 @@ div.fr {
 
 
 
-<div class="container partnernoticeView" style="margin-top: 180px; margin-bottom: 200px;">
+<div class="container partnernoticeView" style="padding-top: 180px; margin-bottom: 200px; width:1000px;">
 
 <h1 style="text-align: center">게시글 상세보기</h1>
 <hr>
@@ -159,11 +158,11 @@ ${notice.partnerNoticeContent }
 
 <div class="text-end">
 
-	<a href="./partnernotice"><button class="btn btn-secondary">목록</button></a>
+	<a href="./partnernotice"><button class="btn btn-info">목록</button></a>
 
 <c:if test="${partnerNo eq notice.partnerNo}">
-<a href="./update?partnerNoticeNo=${notice.partnerNoticeNo}"><button type="button" class="btn btn-secondary" >수정</button></a>
-<button type="button" class="btn-reset-popup btn btn-secondary" >삭제</button>
+<a href="./update?partnerNoticeNo=${notice.partnerNoticeNo}"><button type="button" class="btn btn-info" >수정</button></a>
+<button type="button" class="btn-reset-popup btn btn-info" >삭제</button>
 </c:if>
 </div>
 

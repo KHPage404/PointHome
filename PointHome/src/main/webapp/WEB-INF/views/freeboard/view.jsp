@@ -214,7 +214,7 @@ function updateCom(th, commNo) {
 	<div style="display: flex; align-items: center;">
 		<span style="font-family: 'SBAggroM';">
 			<h5>${viewUser.userNick}</h5>
-			<span><fmt:formatDate value="${board.freeboardDate}" pattern="yy/MM/dd hh:mm"/></span>
+			<span><fmt:formatDate value="${board.freeboardDate}" pattern="yy/MM/dd HH:mm"/></span>
 		</span>
 
 		<div class="fr" style="margin-left: auto;">
@@ -240,7 +240,7 @@ function updateCom(th, commNo) {
 
 	<div id="content">
 		<!-- 본문 내용 가져오기 -->
-		<div class="content" style="min-height: 450px;">${board.freeboardContent}</div>
+		<div class="content" style="min-height: 450px; word-break:break-all;">${board.freeboardContent}</div>
 		<c:forEach var="bfile" items="${file}">
 			<br>
 			<c:choose>
@@ -322,7 +322,7 @@ function updateCom(th, commNo) {
 					<td><br><span>${boardCommentList.USER_NICK}&nbsp;&nbsp;</span></td>
 					<td class="comm">
 						<br>
-						<div class="commContent" style="width: 980px;">
+						<div class="commContent" style="width: 900px;">
 							<span><i class="bi bi-chat-left-text"></i>&nbsp;${boardCommentList.COMM_CONTENT}</span>
 						</div>
 						<div class="commInput">

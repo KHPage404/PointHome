@@ -216,7 +216,7 @@ public class PartnerController {
 		logger.debug("/partner/partnernotice");	
 		
 		Paging paging = partnerService.getPagingNotice(curPage);
-		 List<PartnerNotice> noticelist = partnerService.noticeList(paging);
+		 List<Map<String,Object  >> noticelist = partnerService.noticeList(paging);
 		 
 		 
 		  Partner partnerInfo = partnerService.partnerInfo((Integer)session.getAttribute("partnerNo"));

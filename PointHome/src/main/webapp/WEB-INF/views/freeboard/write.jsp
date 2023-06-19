@@ -159,21 +159,23 @@ body {
 /* 레이어 창 위치 들 */
 #copyright_law {
 	left: 61%;
-	top: 46%;
+/* 	top: 46%; */
+	top: 35%;
 }
 
 #post_guide {
 	left: 69%;
-	top: 49%;
+/* 	top: 49%; */
+	top: 38%;
 }
 
 /* 버튼 모양 없애기  */
 .layer_show {
 	background: none;
 	border: none;
-	text-decoration: none;
+		text-decoration: underline;
+	text-underline-position: under;
 }
-
 .layer_show:focus {
 	outline: none;
 
@@ -197,10 +199,8 @@ body{
 		<i class="bi bi-journal-text"></i>&nbsp;&nbsp;게시글 작성
 	</h1>
 	<br> ※ 음란물, 차별, 비하, 혐오 및 초상권, 저작권 침해 게시물은 민, 형사상의 책임을 질 수 있습니다.
-	<button type="button" class="layer_show" layer="copyright_law">[저작권법
-		안내]</button>
-	<button type="button" class="layer_show" layer="post_guide">[게시물
-		활용 안내]</button>
+	<button type="button" class="layer_show" layer="copyright_law">[저작권법 안내]</button>
+	<button type="button" class="layer_show" layer="post_guide">[게시물 활용 안내]</button>
 
 	<div id="copyright_law" class="layer">
 		<div class="layer-content">

@@ -534,4 +534,9 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.partnerNoticeDelete(partnerNoticeNo);
 		
 	}
+
+	@Override
+	public void adminNoticeDelete(String noticeNo) {
+		adminDao.adminNoticeDelete(noticeNo);
+	}
 }

@@ -75,6 +75,8 @@ table  {
 td {
 	vertical-align: middle;
 }
+
+
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -163,7 +165,7 @@ td {
 					<img src="../resources/new.png" style="margin: 0 auto; width: 13px;" alt="">
 					</c:if>
 				</h5></td>
-				<td><h6 style=" font-size: 12px;"><fmt:formatDate value="${list.COMM_DATE }" pattern="yy/MM/dd HH:mm" /></h6></td>		
+				<td class="datetd"><h6 style=" font-size: 12px;"><fmt:formatDate value="${list.COMM_DATE }" pattern="yy/MM/dd HH:mm" /></h6></td>		
 			</tr>
 			</c:forEach>
 	</table>

@@ -299,6 +299,7 @@ ${bfile.freeboardfileOrigin }
       success: function(result) {
          // 여기가 실행 성공하면 처리할 코드 적으면 됨
     	  $(th).parents(".files").html("");
+         alert("선택된 파일이 삭제되었습니다!");
       },
       error: function(request, status, error) {
     // 여긴 에러

@@ -178,6 +178,7 @@ window.onload=function(){
          </c:if>	
             <th>글번호</th>
             <th>제목</th>
+            <th>작성자</th>
             <th>작성일</th>
          </tr>
       </thead>
@@ -186,12 +187,13 @@ window.onload=function(){
       <c:forEach var="notice" items="${noticelist }">
          <tr>
          <c:if test="${not empty adminLogin and adminLogin}">
-         <td class="checkbox"><input name="RowCheck" type="checkbox" value="${notice.partnerNoticeNo}"/></td>
+         <td class="checkbox"><input name="RowCheck" type="checkbox" value="${notice.PARTNER_NOTICE_NO}"/></td>
          </c:if>
-            <td>${notice.partnerNoticeNo }</td>
+             <td>${notice.PARTNER_NOTICE_NO }</td>
             <td class=""><a
-               href="./view?partnerNoticeNo=${notice.partnerNoticeNo }">${notice.partnerNoticeTitle }</a></td>
-            <td><fmt:formatDate value="${notice.partnerNoticeDate }" pattern="yy/MM/dd hh:mm" /></td>
+               href="./view?partnerNoticeNo=${notice.PARTNER_NOTICE_NO }">${notice.PARTNER_NOTICE_TITLE }</a></td>
+            <td>${notice.PARTNER_SHOPNAME }</td>
+            <td><fmt:formatDate value="${notice.PARTNER_NOTICE_DATE}" pattern="yy/MM/dd hh:mm" /></td>
          </tr>
       </c:forEach>
       </tbody>

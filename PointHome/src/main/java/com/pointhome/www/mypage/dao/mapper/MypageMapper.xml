@@ -14,6 +14,7 @@
 		UPDATE user_tb 
 		SET
 	 	user_nick = #{userNick},
+	 	user_pw = #{userPw},
 	 	user_phone = #{userPhone},
 	 	user_postcode = #{userPostCode},
 	 	user_address = #{userAddress},
@@ -268,6 +269,10 @@
 		order by pn.partner_notice_no desc)P
 		)
 		where rnum between #{paging.startNo} AND #{paging.endNo}
+	</select>
+	
+	<select id="selectUsernick" parameterType="int" resultType="String">
+		SELECT user_nick from user_tb WHERE user_no = #{userNick} 
 	</select>
 	
 </mapper>

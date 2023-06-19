@@ -134,16 +134,17 @@ body{
 		</div>
 		<hr>
 		<div id="divPw">
-			<h6 style="margin-left: 13px; display: inline-block; margin-right: 115px;">비밀번호</h6>
-			<input type="text" class="form-control" id="floatingInput" name="userPw"
-            style="width: 20%; margin-left: 215px; margin-top: -72px; margin-bottom: 10px;"
-            placeholder="비밀번호 확인">
-			<input type="text" class="form-control" id="floatingInput" name=""
-            style="width: 20%; margin-left: 215px; margin-top: 0px; margin-bottom: 10px;"
+			<h6 style="margin-left: 13px; ">비밀번호</h6>
+<!-- 			<input type="text" class="form-control" id="floatingInput" name="userPw" -->
+<!--             style="width: 20%; margin-left: 215px; margin-top: -72px; margin-bottom: 10px;" -->
+<!--             placeholder="비밀번호 확인"> -->
+			<input type = "password" class="form-control" id="floatingInput" name="userPw" value="${res.userPw }"
+            style="width: 20%; margin-left: 215px; margin-top: -68px;"
             placeholder="비밀번호 수정">
-			<input type="text" class="form-control" id="floatingInput" name=""
-            style="width: 20%; margin-left: 215px; margin-top: 0px; margin-bottom: 10px;"
-            placeholder="비밀번호 수정 확인">
+            <label for="floatingInput"></label>
+<!-- 			<input type="text" class="form-control" id="floatingInput" name="" -->
+<!--             style="width: 20%; margin-left: 215px; margin-top: 0px; margin-bottom: 10px;" -->
+<!--             placeholder="비밀번호 수정 확인"> -->
 			
 <!-- 			<button type="button" class="btn btn-outline-dark proBtn">비밀번호 수정</button> -->
 		</div>

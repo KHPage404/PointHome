@@ -415,6 +415,11 @@ public interface AdminDao {
 	 * @param partnerNoticeNo
 	 */
 	public void partnerNoticeDelete(String partnerNoticeNo);
+	/**
+	 * 운영사가 작성한 공지사항 삭제
+	 * @param noticeNo
+	 */
+	public void adminNoticeDelete(String noticeNo);
 	
 	
 

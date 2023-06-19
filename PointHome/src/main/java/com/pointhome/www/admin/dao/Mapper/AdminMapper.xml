@@ -291,7 +291,8 @@
 	<update id="update" parameterType="AdminNotice">
 		update admin_notice set
 		notice_title = #{noticeTitle},
-		notice_content = #{noticeContent}
+		notice_content = #{noticeContent},
+		div=#{div}
 		where notice_no = #{noticeNo}
 	</update>
 
@@ -868,5 +869,10 @@
  
  </delete>
  
+  <delete id="adminNoticeDelete">
+ 	
+ 	delete admin_notice
+ 	where notice_no =#{noticeNo}
  
+ </delete>
 </mapper>

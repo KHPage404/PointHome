@@ -1,4 +1,4 @@
-package com.pointhome.www.partner.dto;
+ package com.pointhome.www.partner.dto;
 
 import java.util.Date;
 

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
-<c:import url="/WEB-INF/views/layout/header.jsp" />
+<c:import url="/WEB-INF/views/layout/adminLayout/adminHeader.jsp"/>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -108,7 +108,6 @@ $(function() {
          focus: true
       })
 
-      $(".note-editable").html('${notice.noticeContent}')
 })
 
 
@@ -121,11 +120,14 @@ $(function() {
 <h1 style="text-align: center">게시글 수정하기</h1>
 <hr>
 <form action="./update" method="post" enctype="multipart/form-data">
+<input type="radio" name="div" value="p" checked="checked">제휴사
+	<input type="radio" name="div" value="u" >사용자
+
 
 <input type="hidden" name="noticeNo" value="${notice.noticeNo}">
 <!-- title JSTL로 가지고 오기 -->
 <div id="noticeTitle">
-	<h3>  <input type="text" id="noticeTitle" name="noticeTitle" value= "${notice.noticeTitle }" style="border: none;" required ></h3>
+	<h3>  <input type="text" id="noticeTitle" name="noticeTitle" value= "${notice.noticeTitle }" style="border: none; width:800px;" required ></h3>
 </div>
 <i class="bi bi-person-circle fs-1" style="height:200px"></i> 운영자 <br>
 <!-- 날짜 -->
@@ -134,12 +136,12 @@ $(function() {
 
 <hr>
 <%-- ${board.freeboardContent } --%>
-<textarea style="display: none" id="noticeContent" name="noticeContent" ></textarea>
+<textarea style="display: none" id="noticeContent" name="noticeContent" >${notice.noticeContent }</textarea>
 
 <input type="file" name="dataMul" multiple="multiple">
 
 <div class="text-end">
-	<button type="button" class="btn-reset-popup btn btn-secondary" >확인</button>
+	<button type="button" class="btn-reset-popup btn btn-dark" >확인</button>
 </div>
 
 <div class="modal2">

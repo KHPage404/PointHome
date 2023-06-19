@@ -89,9 +89,7 @@ a {
 	    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
 			<div class="accordion-body"><a href="./viewReview">리뷰 조회</a></div>				   		
 	    </div>
-	    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-			<div class="accordion-body"><a href="./usermanage">문의?조회?</a></div>				   		
-	    </div>
+	   
 	  </div>
 	  
 	  <!-- #4 -->

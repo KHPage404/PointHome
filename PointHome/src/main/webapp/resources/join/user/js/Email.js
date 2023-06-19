@@ -14,7 +14,8 @@
 })
 
 function email() {
-	let email = $("#Email").val().trim();
+
+	let email = $("#Email").val();
 	let address =  $("#userEmailSelect").val();
 	
 	if (address == '직접입력') {
@@ -29,7 +30,7 @@ function email() {
 		console.log("new_email : " + new_email)
 		
 		$("#userEmail").val(new_email + address);
-		$("#Email").val(new_email);
+		$("#Email").val(new_email);		
 		
 	}else{
 		$("#userEmail").val(email + address);

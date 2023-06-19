@@ -148,12 +148,14 @@
 	</select>
 	
 
-	<select id="selectAllPartnerNotice" resultType="PartnerNotice" parameterType="Paging">
+	<select id="selectAllPartnerNotice" resultType="map" parameterType="map">
 		select * from (
 		SELECT rownum rnum, A.* FROM (
-			SELECT *
-			FROM partner_notice
-			ORDER BY partner_notice_no DESC 
+			SELECT pn.*,pt.partner_shopname
+			 FROM partner_notice pn
+   			 INNER JOIN partner_tb pt 
+   			 ON pn.partner_no = pt.partner_no
+			ORDER BY pn.partner_notice_no DESC 
 		) A
 	)
 		where rnum between #{startNo} and #{endNo} 

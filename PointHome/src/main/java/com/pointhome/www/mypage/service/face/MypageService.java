@@ -273,7 +273,22 @@ public interface MypageService {
 	 */
 	public Paging getNoticelistPaging(int curPage, int userNo);
 
+	/**
+	 * 찜한 상점 공지사항 가져오기
+	 * 
+	 * @param paging - 페이징 객체
+	 * @param userNo - 회원번호
+	 * @return - 공지사항 내역
+	 */
 	public List<Map<String, Object>> selectPickNotice(Paging paging, int userNo);
+
+	/**
+	 * 별명 가져오기
+	 * 
+	 * @param userno - 회원 번호
+	 * @return - 별명
+	 */
+	public String selectUserNick(int userno);
 
 	
 

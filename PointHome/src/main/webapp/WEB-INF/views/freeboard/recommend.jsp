@@ -15,10 +15,10 @@
 <span class="hit me-2">추천수 ${cntRecommend }</span>
 <span>
 	<c:if test="${isRecommend eq 0 }">
-		<button id="recommendBtn" class="btn btn-info">추천</button>
+		<button id="recommendBtn" class="btn btn-info btn-sm">추천</button>
 	</c:if>
 	<c:if test="${isRecommend eq 1 }">
-		<button id="recommendBtn" class="btn btn-info">추천 취소</button>
+		<button id="recommendBtn" class="btn btn-info btn-sm">추천 취소</button>
 	</c:if>
 </span>
 

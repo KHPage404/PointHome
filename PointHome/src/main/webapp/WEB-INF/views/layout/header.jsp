@@ -20,23 +20,20 @@
 <!-- 알람 js -->
 <c:if test="${login }">
 <script type="text/javascript">
-$( () => {
-   $("#alertCnt").on('click', "#alertCk", function() {
-   
-      console.log("click");
-      console.log(${userno});
-   
-      $.ajax({
-         type: 'get'
-         , url : '/mypage/deleteAlert'
-         , dataType : 'json'
-         , data: { userNo: ${userno} }
-         , success : function(result) { console.log(result) }
-         , error : function(request, status, error) { console.log(error) }
-      })
-   
-   })
-})
+// $( () => {
+//    $("#alertCnt").on('click', "#alertCk", function() { 
+//       console.log("click");
+//       console.log(${userno}); 
+//       $.ajax({
+//          type: 'get'
+//          , url : '/mypage/deleteAlert'
+//          , dataType : 'json'
+//          , data: { userNo: ${userno} }
+//          , success : function(result) { console.log(result) }
+//          , error : function(request, status, error) { console.log(error) }
+//       })   
+//    })
+// })
 </script>
 </c:if>
 

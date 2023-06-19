@@ -50,7 +50,9 @@ public class MypageController {
 		
 		int userno= (int) session.getAttribute("userno"); 
 		logger.debug("userno : {}", userno);
-		String usernick = (String)session.getAttribute("usernick");
+		
+		String userNick = mypageService.selectUserNick(userno);
+		logger.debug("!!!!!!!!!!!!!!userno : {}", userNick);
 		
 		User res= mypageService.selectInfo(userno);
 		List<Map<String, Object>> reservelist = mypageService.selectReserve(userno);
@@ -133,7 +135,7 @@ public class MypageController {
 		model.addAttribute("pNotice", partnerNotice);
 		model.addAttribute( "alertCnt" , alertCnt);
 		model.addAttribute("userFile", userFile);
-		model.addAttribute("userNick", usernick);
+		model.addAttribute("userNick", userNick);
 	}
 		
 	
@@ -143,13 +145,12 @@ public class MypageController {
 		logger.debug("/mypage/userinfo [GET]");
 		
 		int userno= (int) session.getAttribute("userno"); 
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userno);
 		logger.debug("userno : {}", userno);
 		
 		User res= mypageService.selectInfo(userno);
 		
 		logger.debug("res{}",res);
-		model.addAttribute("res", res);
 		
 		
 		
@@ -161,6 +162,8 @@ public class MypageController {
 		int alertCnt = mypageService.getAlertCnt(userno);
 		model.addAttribute( "alertCnt" , alertCnt);
 		model.addAttribute("userNick", usernick);
+		model.addAttribute("res", res);
+	
 		
 		
 	}
@@ -169,7 +172,7 @@ public class MypageController {
 	public void myreserve(HttpSession session, Model model, @RequestParam(defaultValue = "0") int curPage) {
 		
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
 		
 		
 		Paging paging = mypageService.getReservePaging(curPage, userNo);
@@ -259,7 +262,7 @@ public class MypageController {
 	public void myreservedetail(HttpSession session, Model model, int resNo) {
 
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
 		
 		Map<String, Object> mypay = mypageService.selectPay(userNo, resNo);
 		
@@ -306,7 +309,7 @@ public class MypageController {
 	@RequestMapping("/myreview")
 	public void myreviewList(HttpSession session, Model model,  @RequestParam(defaultValue = "0") int curPage) {
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
 		
 		Paging paging = mypageService.getReviewPaging(curPage, userNo);
 		
@@ -344,7 +347,10 @@ public class MypageController {
 		
 		model.addAttribute("profile", file);
 		model.addAttribute("user", user);
+		session.removeAttribute("usernick");
 		
+		String usernick = mypageService.selectUserNick(userno);
+		session.setAttribute("usernick", usernick);
 		
 		return "redirect:./view";
 	}
@@ -371,7 +377,7 @@ public class MypageController {
 	public void mypickList(HttpSession session, Model model,  @RequestParam(defaultValue = "0") int curPage) {
 		
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
 		
 		Paging paging = mypageService.getPickPaging(curPage, userNo);
 		
@@ -399,7 +405,7 @@ public class MypageController {
 	public void myboardList(HttpSession session, Model model, @RequestParam(defaultValue = "0") int curPage ) {
 		
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
 		
 		Paging paging = mypageService.getPaging(curPage, userNo);
 		
@@ -427,7 +433,9 @@ public class MypageController {
 	public void myAlarm(HttpSession session, Model model, @RequestParam(defaultValue = "0") int curPage) {
 		
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
+		
+		mypageService.deleteAlert(userNo);
 		
 		Paging paging = mypageService.getAlertPaging(curPage, userNo);
 		
@@ -451,18 +459,19 @@ public class MypageController {
 		
 	}
 	
-	@RequestMapping("/deleteAlert")
-	public ModelAndView deleteAlertCnt(HttpSession session, Model model, ModelAndView mav) {
-
-		int userNo = (Integer)session.getAttribute("userno");
-		logger.info("{}", userNo);
-		mypageService.deleteAlert(userNo);
-		
-		mav.setViewName("jsonView");
-		
-		return mav;
-	
-	}
+//	@RequestMapping("/deleteAlert")
+//	public ModelAndView deleteAlertCnt(HttpSession session, Model model, ModelAndView mav) {
+//
+//		int userNo = (Integer)session.getAttribute("userno");
+//		logger.info("{}", userNo);
+//		mypageService.deleteAlert(userNo);
+//		
+//		
+//		mav.setViewName("jsonView");
+//		
+//		return mav;
+//	
+//	}
 	
 	@GetMapping("/writeReview")
 	public void writeReview(HttpSession session, int resNo, Model model) {
@@ -628,7 +637,7 @@ public class MypageController {
     public void mypay(HttpSession session, Model model,  @RequestParam(defaultValue = "0") int curPage ) {
     	
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
 		
 		Paging paging = mypageService.getReservePaging(curPage, userNo);
     
@@ -652,7 +661,7 @@ public class MypageController {
     @RequestMapping("/myCommentlist")
     public void reviewlist(HttpSession session, Model model, @RequestParam(defaultValue = "0") int curPage) {
 		int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+		String usernick = mypageService.selectUserNick(userNo);
 		
 		Paging paging = mypageService.getCommentPaging(curPage, userNo);
 		
@@ -703,7 +712,7 @@ public class MypageController {
     public void picknoticelist(HttpSession session, Model model, @RequestParam(defaultValue = "0") int curPage) {
     	
     	int userNo = (Integer)session.getAttribute("userno");
-		String usernick = (String)session.getAttribute("usernick");
+    	String usernick = mypageService.selectUserNick(userNo);
 		
 		Paging paging = mypageService.getNoticelistPaging(curPage, userNo);
 		

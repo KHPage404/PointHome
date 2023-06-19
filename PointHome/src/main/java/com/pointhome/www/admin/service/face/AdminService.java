@@ -369,6 +369,13 @@ public interface AdminService {
 	 * @return 삭제된 공지사항글
 	 */
 	public void partnerNoticeDelete(String partnerNoticeNo);
+	/**
+	 * 운영사가 작성한 공지사항 삭제 
+	 * @param noticeNo - 게시글 번호 
+	 * @return 삭제된 공지사항글
+	 */
+
+	public void adminNoticeDelete(String noticeNo);
 	
 	
 

@@ -318,7 +318,7 @@ $(document).ready(function() {
 		<div style="font-size: 25px;">
 			후기(${reviewCnt })  
 			<span class="star-ratings" style="font-family: Noto_Sans_KR400">
-				<span class="star-ratings-fill space-x-2 text-lg" style="width: ${avgGrade * 20 - 4 }%;">
+				<span class="star-ratings-fill space-x-2 text-lg" style="width: ${avgGrade * 20 }%;">
 					<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 				</span>
 				<span class="star-ratings-base space-x-2 text-lg">

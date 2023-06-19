@@ -42,8 +42,12 @@ td {
 		</div>
 	</c:if>
 	
-	
-
+	<c:if test="${empty partnerLogin }">
+		<div style="padding: 80px;">
+			<h2>로그인이 필요합니다</h2>
+			<a href="/partner/login"><button>로그인</button></a>
+		</div>
+	</c:if>
 	
 </div>
 

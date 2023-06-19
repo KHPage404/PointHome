@@ -80,7 +80,7 @@ public interface PartnerDao {
 	 * @param filter
 	 * @return
 	 */
-	public List<PartnerNotice> selectAllPartnerNotice(Paging paging);
+	public List<Map<String,Object  >> selectAllPartnerNotice(Paging paging);
 
 	/**
 	 * 공지사항 작성폼으로부터 입력된 정보를 삽입

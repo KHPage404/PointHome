@@ -13,8 +13,12 @@
 	</select>
 	
 	<insert id="insertUserReserveData" parameterType="Reservation">
+		<selectKey order="BEFORE" resultType="int"
+			keyProperty="resNo">
+			SELECT res_no_seq.nextval FROM dual
+		</selectKey>
 		INSERT INTO RESERVATION(RES_NO, PART_NO, RES_DATE ,RES_RESERVENO, USER_NO ,RES_TIME, RES_DIV, RES_PRICE)
-		VALUES (res_no_seq.nextval, #{partNo}, #{resDate}, #{resReserveno}, #{userNo}, #{resTime}, #{resDiv}, #{resPrice})
+		VALUES (#{resNo}, #{partNo}, #{resDate}, #{resReserveno}, #{userNo}, #{resTime}, #{resDiv}, #{resPrice})
 	</insert>
 	
 	<select id="selectPartnerView" parameterType="int" resultType="Partner">

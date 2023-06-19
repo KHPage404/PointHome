@@ -10,7 +10,7 @@
 	<h1>타로 영상 가져오기</h1>
 	<hr>
 	<br>
-	<h3>원하는 유투브 URL을 입력하세요!!</h3>
+	<h3>유투브 URL을 입력하세요</h3>
 	<form action="./insertVideo" method="post" onsubmit="return inputUrl()">
 		<input type="text" name="partnerVideoUrl" id="partnerVideoUrl"
 			placeholder="URL입력"
@@ -30,7 +30,7 @@
 						allowfullscreen></iframe></td>
 
 				<td><fmt:formatDate value="${video.partnerVideoDate}"
-						pattern="yy/MM/dd hh:mm" /></td>
+						pattern="yy/MM/dd HH:mm" /></td>
 				<td>
 					<form action="./deleteVideo" method="post">
 						<input type="hidden" value="${video.partnerVideoNo}"

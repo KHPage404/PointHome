@@ -96,8 +96,8 @@ public class PartnerServiceImpl implements PartnerService {
 
 
 	@Override
-	public List<PartnerNotice> noticeList(Paging paging) {
-		List<PartnerNotice> alist = partnerDao.selectAllPartnerNotice(paging);
+	public  List<Map<String,Object  >> noticeList(Paging paging) {
+		 List<Map<String,Object  >> alist = partnerDao.selectAllPartnerNotice(paging);
 
 		logger.debug("{}", alist);
 		return alist;

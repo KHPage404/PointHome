@@ -454,6 +454,24 @@ public class AdminController {
 		 return "redirect:/admin/noticelist";
 	}
 	
+	// 운영사가 작성한 게시글 삭제
+    @RequestMapping(value = "/removenotice", method = RequestMethod.GET)
+    public String removenotice(String noticeNo) throws Exception {
+    	adminService.adminNoticeDelete(noticeNo);
+    	return "redirect:/admin/noticelist";
+    }
+    
+    //게시물 선택삭제
+    @RequestMapping(value = "/removenotice",method = RequestMethod.POST)
+    public String ajaxremovenotice(HttpServletRequest request) throws Exception {
+            
+        String[] ajaxMsg = request.getParameterValues("valueArr");
+        int size = ajaxMsg.length;
+        for(int i=0; i<size; i++) {
+        	adminService.adminNoticeDelete(ajaxMsg[i]);
+        }
+    	return "redirect:/admin/noticelist";
+    }	
 	
 	//제휴사가 작성한 공지사항 삭제 
 	@GetMapping("/partnernotice")
@@ -463,6 +481,8 @@ public class AdminController {
 		
 		return "redirect:/partner/partnernotice";
 	}
+	
+	
 	
 	
 	//사용자가 작성한 글 가져오기 

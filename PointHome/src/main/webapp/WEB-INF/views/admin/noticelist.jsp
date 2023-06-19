@@ -37,6 +37,69 @@
 	</style>
 </c:if>
 
+<style type="text/css">
+   .checkbox-table .checkbox-cell input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+   }
+</style>
+
+
+<script type="text/javascript">
+		$(function(){
+			var chkObj = document.getElementsByName("RowCheck");
+			var rowCnt = chkObj.length;
+			
+			$("input[name='allCheck']").click(function(){
+				var chk_listArr = $("input[name='RowCheck']");
+				for (var i=0; i<chk_listArr.length; i++){
+					chk_listArr[i].checked = this.checked;
+				}
+			});
+			$("input[name='RowCheck']").click(function(){
+				if($("input[name='RowCheck']:checked").length == rowCnt){
+					$("input[name='allCheck']")[0].checked = true;
+				}
+				else{
+					$("input[name='allCheck']")[0].checked = false;
+				}
+			});
+		});
+		function deleteValue(){
+			var url = "removenotice";    
+			var valueArr = new Array();
+		    var list = $("input[name='RowCheck']");
+		    for(var i = 0; i < list.length; i++){
+		        if(list[i].checked){ 
+		            valueArr.push(list[i].value);
+		        }
+		    }
+		    if (valueArr.length == 0){
+		    	alert("선택된 글이 없습니다.");
+		    }
+		    else{
+				var chk = confirm("정말 삭제하시겠습니까?");
+				if (chk) {
+				$.ajax({
+				    url : url,                  
+				    type : 'POST',              
+				    traditional : true,
+				    data : {
+				    	valueArr : valueArr       
+				    },
+	                success: function(jdata){
+	                        location.replace("noticelist");
+	                }
+				});
+		    } else {
+	        	 location.replace("noticelist");
+	        }
+	    }
+	}
+		
+		
+	</script>
+
 
 <!-- 필터랑 타입 적용하여 소팅-->
 <script type="text/javascript">
@@ -142,7 +205,7 @@ td {
 
 <div style="padding-right:300px; margin-left:110px; width: 100%;">
 
-		<div style="text-align: center; margin-top: 60px; font-size: 56px; margin-left:37px;" >
+		<div style="text-align: center; margin-top: 30px; font-size: 56px; margin-left:37px;" >
 		공지사항
 		</div>
 
@@ -153,7 +216,9 @@ td {
 			style="margin-left: 60px;">
 			<thead class="table-dark">
 				<tr>
+				<th> <input id="allCheck" type="checkbox" name="allCheck" class="form-check-input" /></th>	
 					<th>글번호</th>
+					<th>타입</th>
 					<th>제목</th>
 					<th>작성일</th>
 					<th>작성자</th>
@@ -162,9 +227,20 @@ td {
 
 
 			<c:forEach var="notice" items="${noticelist }">
-				<tr onclick="location.href='./view?noticeNo=${notice.NOTICE_NO }'">
+				<tr >
+					<td class="checkbox"><input name="RowCheck" type="checkbox" value="${notice.NOTICE_NO}"/></td>
 					<td>${notice.NOTICE_NO }</td>
-					<td class="text-start" style="font-weight: bold;">${notice.NOTICE_TITLE }</td>
+					<c:choose>
+						<c:when test="${notice.DIV eq 'p'}">
+						<td>제휴사</td>
+						</c:when>
+						
+						<c:otherwise>
+						<td>사용자</td>
+						</c:otherwise>
+					</c:choose>
+					
+					<td class="text-start" style="font-weight: bold;" onclick="location.href='./view?noticeNo=${notice.NOTICE_NO }'">${notice.NOTICE_TITLE }</td>
 
 					<td><fmt:formatDate value="${notice.NOTICE_DATE }"
 							pattern="yy/MM/dd hh:mm" />
@@ -183,6 +259,7 @@ td {
 			<div class="float-end mb-3">
 				<a href="/admin/writenotice"><button id="btnWrite"
 						class="btn btn-dark">공지사항 작성</button></a>
+         <input type="button" value="삭제" class="btn btn-dark" onclick="deleteValue();">
 			</div>
 			<div class="clearfix"></div>
 		</c:if>

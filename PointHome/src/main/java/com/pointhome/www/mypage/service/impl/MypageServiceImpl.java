@@ -292,4 +292,8 @@ public class MypageServiceImpl implements MypageService {
 		return mypageDao.selectPickNoticeByuserno(paging, userNo);
 	}
 	
+	@Override
+	public String selectUserNick(int userno) {
+		return mypageDao.selectUsernick(userno);
+	}
 }

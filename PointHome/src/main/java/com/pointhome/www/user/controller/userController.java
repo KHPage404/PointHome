@@ -336,5 +336,16 @@ public class userController {
 		
 		return "redirect:/partner/partnernotice";
 	}
+
+	@PostMapping("/user/chkPhone")
+	public String p(User Param, HttpSession session, Model model) {
+		
+		String type = (String) session.getAttribute("type");
+		
+		model.addAttribute("type", type); 
+		
+		
+		return "redirect:/partner/partnernotice";
+	}
 	
 }
